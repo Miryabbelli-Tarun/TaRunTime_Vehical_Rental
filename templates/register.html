@@ -1,30 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
-<body>
-    <h1>register</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
+{% block title %}Register | TaRunTime{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+    <div class="col-12 col-md-8 col-lg-5">
+        <!-- Register Card Block Container -->
+        <div class="card border-0 shadow-lg p-4 rounded-4 bg-white my-4">
+            
+            <!-- Header Identity Title -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark mb-1">Create Account</h2>
+                <p class="text-muted small">Join TaRunTime to rent premium vehicles or list your own fleet</p>
+            </div>
+
+            <!-- Django Flash Messages Stack Node -->
+            {% if messages %}
+                <div class="mb-3">
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show rounded-3 small py-2 px-3" role="alert">
+                            <i class="bi {% if message.tags == 'error' or message.tags == 'danger' %}bi-exclamation-triangle-fill{% else %}bi-info-circle-fill{% endif %} me-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close shadow-none p-2" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Core Registration Post Submission Router Form -->
+            <form action="" method="POST" autocomplete="off">
+                {% csrf_token %}
+
+                <!-- Username Input Box Layout -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="text" 
+                        name="username" 
+                        id="floatingUsernameInput" 
+                        class="form-control rounded-3 border-secondary-subtle" 
+                        placeholder="username"
+                        required
+                    >
+                    <label for="floatingUsernameInput" class="text-muted"><i class="bi bi-person me-2"></i>Username</label>
+                </div>
+
+                <!-- Email Input Box Layout -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="floatingEmailInput" 
+                        class="form-control rounded-3 border-secondary-subtle" 
+                        placeholder="name@example.com"
+                        required
+                    >
+                    <label for="floatingEmailInput" class="text-muted"><i class="bi bi-envelope me-2"></i>Email Address</label>
+                </div>
+
+                <!-- Phone Number Input Box Layout -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="text" 
+                        name="phone_number" 
+                        id="floatingPhoneInput" 
+                        class="form-control rounded-3 border-secondary-subtle" 
+                        placeholder="Phone Number"
+                        required
+                    >
+                    <label for="floatingPhoneInput" class="text-muted"><i class="bi bi-telephone me-2"></i>Phone Number</label>
+                </div>
+
+                <!-- Password Protected Input Box Layout -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="floatingPasswordInput" 
+                        class="form-control rounded-3 border-secondary-subtle" 
+                        placeholder="Password"
+                        required
+                    >
+                    <label for="floatingPasswordInput" class="text-muted"><i class="bi bi-lock me-2"></i>Password</label>
+                </div>
+
+                <!-- Confirm Password Protected Input Box Layout -->
+                <div class="form-floating mb-4">
+                    <input 
+                        type="password" 
+                        name="confirm_password" 
+                        id="floatingConfirmPasswordInput" 
+                        class="form-control rounded-3 border-secondary-subtle" 
+                        placeholder="Confirm Password"
+                        required
+                    >
+                    <label for="floatingConfirmPasswordInput" class="text-muted"><i class="bi bi-shield-lock me-2"></i>Confirm Password</label>
+                </div>
+
+                <!-- Terms and Conditions Compliance Agreement Check -->
+                <div class="form-check mb-4 small">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required style="cursor: pointer;">
+                    <label class="form-check-label text-secondary" for="termsCheck" style="cursor: pointer;">
+                        I agree to the <a href="#" class="text-decoration-none text-warning fw-medium">Terms of Service</a> and <a href="#" class="text-decoration-none text-warning fw-medium">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Primary Action Submission Call to Action Control Node -->
+                <button 
+                    type="submit" 
+                    class="btn w-100 py-2.5 fw-bold text-white rounded-pill border-0 shadow-sm"
+                    style="background: linear-gradient(135deg, #ff6b00, #ff8c42); transition: 0.3s;"
+                    onmouseover="this.style.transform='translateY(-1px)'"
+                    onmouseout="this.style.transform='none'"
+                >
+                    <i class="bi bi-person-plus me-2"></i>Sign Up
+                </button>
+            </form>
+
+            <!-- Bottom Alternating Destination Redirect Option Footer Block -->
+            <div class="text-center mt-4 pt-2 border-top border-light">
+                <p class="text-secondary small mb-0">
+                    Already have an account? 
+                    <a href="{% url 'login' %}" class="text-decoration-none text-warning fw-bold ms-1">Login here</a>
+                </p>
+            </div>
+
         </div>
-        {% endfor %}
-        {% endif %}
-        <input type="text" name="username" id="">
-        <input type="email" name="email" id="">
-        <input type="text" name="phone_number" id="">
-        <input type="password" name="password" id="">
-        <input type="password" name="confirm_password" id="">
-        <button type="submit">Register</button>
-    </form>
-</body>
-
-</html>
+    </div>
+</div>
+{% endblock %}

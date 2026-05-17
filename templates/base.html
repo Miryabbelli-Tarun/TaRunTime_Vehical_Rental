@@ -1,14 +1,668 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title% }
-    {% endblock title %}
+    <title>{% block title %}TaRunTime{% endblock %} </title>
+    
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+        background: #f5f7fb;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+       }
+
+        main {
+            flex-grow: 1;
+        }
+
+        /* =========================
+            NAVBAR
+        ========================== */
+
+        .custom-navbar{
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 14px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand{
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff !important;
+            letter-spacing: 1px;
+        }
+
+        .navbar-brand span{
+            color: #ff6b00;
+        }
+
+        .nav-link{
+            color: #e2e8f0 !important;
+            font-weight: 500;
+            margin: 0 8px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover{
+            color: #ff6b00 !important;
+        }
+
+        .nav-link::after{
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0%;
+            height: 2px;
+            background: #ff6b00;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover::after{
+            width: 100%;
+        }
+
+        /* =========================
+            SEARCH BAR
+        ========================== */
+
+        .search-box{
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+        }
+
+        .search-input{
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 12px 50px 12px 20px;
+            border-radius: 50px;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        .search-btn{
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#ff6b00,#ff8c42);
+            color: white;
+            transition: 0.3s;
+        }
+
+        .search-btn:hover{
+            transform: scale(1.08);
+        }
+
+        /* =========================
+            BUTTONS
+        ========================== */
+
+        .btn-login{
+            border: 2px solid #ff6b00;
+            color: #ff6b00;
+            border-radius: 30px;
+            padding: 8px 22px;
+            font-weight: 600;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-login:hover{
+            background: #ff6b00;
+            color: white;
+        }
+
+        .btn-register{
+            background: linear-gradient(135deg,#ff6b00,#ff8c42);
+            color: white;
+            border-radius: 30px;
+            padding: 9px 24px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255,107,0,0.4);
+            text-decoration: none;
+        }
+
+        .btn-register:hover{
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* =========================
+            ICONS
+        ========================== */
+
+        .icon-btn{
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-left: 10px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .icon-btn:hover{
+            background: #ff6b00;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+            SCROLLABLE MULTI-ROLE DROPDOWN
+        ========================== */
+
+        .dropdown-menu-scrollable {
+            max-height: 380px; 
+            overflow-y: auto;
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 260px;
+            padding: 0.5rem 0;
+        }
+
+        /* Custom Dropdown Scrollbar Customization styling */
+        .dropdown-menu-scrollable::-webkit-scrollbar {
+            width: 6px;
+        }
+        .dropdown-menu-scrollable::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 0 16px 16px 0;
+        }
+        .dropdown-menu-scrollable::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dropdown-menu-scrollable::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .dropdown-header-role {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 8px 18px 4px;
+        }
+
+        .dropdown-item{
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-item i {
+            font-size: 1.05rem;
+            color: #64748b;
+            transition: 0.2s;
+        }
+
+        .dropdown-item:hover{
+            background: #ff6b00;
+            color: white;
+        }
+
+        .dropdown-item:hover i {
+            color: white;
+        }
+
+        /* Remove default bootstrap toggle down arrow indicator symbol */
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        /* =========================
+            FOOTER
+        ========================== */
+
+        .footer{
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 70px 0 20px;
+            margin-top: 100px;
+        }
+
+        .footer-logo{
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .footer-logo span{
+            color: #ff6b00;
+        }
+
+        .footer-text{
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        .footer-title{
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-links a{
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-bottom: 12px;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover{
+            color: #ff6b00;
+            transform: translateX(5px);
+        }
+
+        .social-icons{
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .social-icons a{
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover{
+            background: #ff6b00;
+            transform: translateY(-4px);
+        }
+
+        .footer-bottom{
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        /* =========================
+            RESPONSIVE
+        ========================== */
+
+        @media(max-width:991px){
+
+            .search-box{
+                margin: 20px 0;
+                max-width: 100%;
+            }
+
+            .navbar-nav{
+                margin-top: 20px;
+            }
+
+            .nav-link{
+                margin: 10px 0;
+            }
+
+            .user-actions{
+                margin-top: 20px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .icon-btn {
+                margin-left: 0;
+                margin-right: 10px;
+            }
+            
+            .dropdown-menu-scrollable {
+                width: 100%;
+                position: static !important;
+                transform: none !important;
+                margin-top: 10px;
+            }
+        }
+
+    </style>
 </head>
 <body>
-    {% block main %}
-            <!-- main content hear -->
-    {% endblock main %}
+
+
+<!-- =========================
+        NAVBAR START
+========================== -->
+
+<nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            Ta<span>Run</span>Time
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+
+            <!-- Left Menu Links -->
+            <ul class="navbar-nav ms-4">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Vehicles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Categories</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+
+                <!-- {% if request.user.is_authenticated and not request.user.is_vendor and not request.user.wants_vendor %}
+                <li class="nav-item">
+                    <a class="nav-link text-warning" href="#">
+                        Become Vendor
+                    </a>
+                </li>
+                {% endif %} -->
+
+            </ul>
+
+            <!-- Center Search Bar -->
+            <div class="mx-auto search-box">
+
+                <form action="" method="GET">
+                    {% csrf_token %}
+                    <input 
+                        type="text"
+                        name="search"
+                        class="search-input"
+                        placeholder="Search vehicles by city, brand, model..."
+                    >
+
+                    <button class="search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- Right Side User Actions Component -->
+            <div class="d-flex align-items-center user-actions">
+
+                {% if request.user.is_authenticated %}
+
+                    <!-- Notifications Button -->
+                    <a href="#" class="icon-btn" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                    </a>
+
+                    <!-- Wishlist Link Button -->
+                    <a href="#" class="icon-btn" title="Wishlist">
+                        <i class="bi bi-heart"></i>
+                    </a>
+
+                    <!-- Cart Link Button -->
+                    <a href="#" class="icon-btn" title="Cart">
+                        <i class="bi bi-cart3"></i>
+                    </a>
+
+                    <!-- Profile Action Dropdown -->
+                    <div class="dropdown">
+
+                        <a 
+                            class="icon-btn dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            title="Account Actions"
+                        >
+                            <i class="bi bi-person"></i>
+                        </a>
+
+                        <!-- Scrollable List Core Options Layout -->
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-scrollable">
+
+                            <!-- PLATFORM SUPERUSER ADMIN CONSOLE -->
+                            {% if request.user.is_superuser %}
+                                <li><div class="dropdown-header-role text-danger bg-danger-subtle">Admin Controls</div></li>
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-speedometer2"></i> Admin Dashboard</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-people"></i> Manage Users</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-car-front"></i> Manage Vehicles</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-tags"></i> Categories CRUD</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person-check"></i> Vendor Requests</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-graph-up-arrow"></i> Reports</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+
+                            <!-- VERIFIED PARTNER VENDOR MODULE -->
+                            {% if request.user.is_vendor %}
+                                <li><div class="dropdown-header-role text-success bg-success-subtle">Vendor Menu</div></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-grid-1x2"></i> Vendor Dashboard</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-plus-circle"></i> Add Vehicle</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-car-front-fill"></i> My Vehicles</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-calendar-event"></i> Booking Requests</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-wallet2"></i> Earnings</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-sliders"></i> Analytics</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+
+                            <!-- GENERAL CUSTOMER ACCOUNT CONSOLE -->
+                            <li><div class="dropdown-header-role text-warning bg-warning-subtle">Customer Menu</div></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-bounding-box"></i> My Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-journal-check"></i> My Bookings</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-heart-fill"></i> Wishlist</a></li>
+                            {% if not request.user.is_vendor and not request.user.wants_vendor %}
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-shop"></i> Become Vendor</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- AUTH TERMINATION LINK -->
+                            <li>
+                                <a class="dropdown-item text-danger fw-bold" href="{% url 'logout' %}">
+                                    <i class="bi bi-box-arrow-right text-danger"></i> Logout
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                {% else %}
+
+                    <!-- Anonymous User Login Link Button -->
+                    <a href="{% url 'login' %}" class="btn btn-login me-2">
+                        Login
+                    </a>
+
+                    <!-- Anonymous User Signup Link Button -->
+                    <a href="{% url 'register' %}" class="btn btn-register">
+                        Register
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- =========================
+        NAVBAR END
+========================== -->
+
+
+<!-- =========================
+        MAIN CONTENT INJECTION 
+========================== -->
+
+<main>
+    <div class="container mt-5">
+        {% block content %}
+        <!-- Child layout template nodes execute here -->
+        {% endblock %}
+    </div>
+</main>
+
+
+<!-- =========================
+        FOOTER START
+========================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Logo Section Description -->
+            <div class="col-lg-4 mb-5">
+
+                <div class="footer-logo">
+                    Ta<span>Run</span>Time
+                </div>
+
+                <p class="footer-text">
+                    Your trusted vehicle rental platform for booking cars,
+                    bikes, luxury rides, and electric vehicles anytime,
+                    anywhere with ease and security.
+                </p>
+
+                <div class="social-icons">
+
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+
+                </div>
+
+            </div>
+
+            <!-- Quick Links Links -->
+            <div class="col-lg-2 col-md-6 mb-4">
+
+                <h5 class="footer-title">Quick Links</h5>
+
+                <div class="footer-links">
+                    <a href="#">Home</a>
+                    <a href="#">Vehicles</a>
+                    <a href="#">Categories</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </div>
+
+            </div>
+
+            <!-- Corporate Info Elements -->
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <h5 class="footer-title">Company</h5>
+
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Support</a>
+                </div>
+
+            </div>
+
+            <!-- Contact Information Nodes -->
+            <div class="col-lg-3 col-md-12 mb-4">
+
+                <h5 class="footer-title">Contact Info</h5>
+
+                <div class="footer-links">
+                    <a href="#"><i class="bi bi-geo-alt me-1 text-warning"></i> Hyderabad, India</a>
+                    <a href="#"><i class="bi bi-envelope me-1 text-warning"></i> support@taruntime.com</a>
+                    <a href="#"><i class="bi bi-telephone me-1 text-warning"></i> +91 9876543210</a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Bottom Base Disclaimer Block -->
+        <div class="footer-bottom">
+            © 2026 TaRunTime. All Rights Reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- =========================
+        FOOTER END
+========================== -->
+
+
+<!-- Bootstrap JS Bundle featuring Popper for Dropdowns -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

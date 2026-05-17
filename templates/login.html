@@ -1,24 +1,261 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>login</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
+{% extends 'base.html' %}
+
+{% block title %}Login | TaRunTime{% endblock %}
+{% block content %}
+
+<style>
+
+    .login-section{
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 0;
+    }
+
+    .login-card{
+        width: 100%;
+        max-width: 450px;
+        background: white;
+        border-radius: 25px;
+        padding: 45px 35px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .login-card::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(135deg,#ff6b00,#ff8c42);
+    }
+
+    .login-title{
+        text-align: center;
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 10px;
+    }
+
+    .login-subtitle{
+        text-align: center;
+        color: #64748b;
+        margin-bottom: 35px;
+    }
+
+    .form-label{
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+    .custom-input{
+        height: 55px;
+        border-radius: 14px;
+        border: 1px solid #cbd5e1;
+        padding: 10px 18px;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .custom-input:focus{
+        border-color: #ff6b00;
+        box-shadow: 0 0 0 0.2rem rgba(255,107,0,0.2);
+    }
+
+    .input-group-text{
+        border-radius: 14px 0 0 14px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+    }
+
+    .login-btn{
+        width: 100%;
+        height: 55px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg,#ff6b00,#ff8c42);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        transition: 0.3s;
+        margin-top: 10px;
+        box-shadow: 0 6px 18px rgba(255,107,0,0.3);
+    }
+
+    .login-btn:hover{
+        transform: translateY(-3px);
+    }
+
+    .extra-links{
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .extra-links a{
+        color: #ff6b00;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .extra-links a:hover{
+        text-decoration: underline;
+    }
+
+    .alert{
+        border-radius: 12px;
+        font-size: 14px;
+    }
+
+    .login-icon{
+        width: 85px;
+        height: 85px;
+        background: linear-gradient(135deg,#ff6b00,#ff8c42);
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        box-shadow: 0 8px 20px rgba(255,107,0,0.3);
+    }
+
+</style>
+
+
+<section class="login-section">
+
+    <div class="login-card">
+
+        <!-- Login Icon -->
+        <div class="login-icon">
+            <i class="bi bi-person-lock"></i>
         </div>
-        {% endfor %}
+
+        <!-- Title -->
+        <h2 class="login-title">
+            Welcome Back
+        </h2>
+
+        <p class="login-subtitle">
+            Login to continue your TaRunTime journey
+        </p>
+
+        <!-- Messages -->
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
         {% endif %}
-        <input type="email" name="email" id="">
-        <input type="password" name="password" id="">
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+
+        <!-- Login Form -->
+        <form action="" method="POST">
+
+            {% csrf_token %}
+
+            <!-- Email -->
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Email Address
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope-fill"></i>
+                    </span>
+
+                    <input 
+                        type="email"
+                        name="email"
+                        class="form-control custom-input"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Password
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-lock-fill"></i>
+                    </span>
+
+                    <input 
+                        type="password"
+                        name="password"
+                        class="form-control custom-input"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- Forgot Password -->
+            <div class="d-flex justify-content-end mb-3">
+
+                <a href="#" class="text-decoration-none text-warning fw-semibold">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="login-btn">
+
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                Login
+
+            </button>
+
+        </form>
+
+        <!-- Register -->
+        <div class="extra-links">
+
+            Don’t have an account?
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
