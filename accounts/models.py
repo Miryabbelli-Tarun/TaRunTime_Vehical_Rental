@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
+from datetime import timedelta
 
 from accounts.manager import CustomUserManager
 # Create your models here.
@@ -27,7 +29,15 @@ class OTP(models.Model):
     attempts=models.IntegerField(default=0)
     max_attempts=models.IntegerField(default=5)
 
-    
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def is_expired(self):
+
+        expiry_time = self.created_at + timedelta(minutes=5)
+
+        return timezone.now() > expiry_time
 
     def __str__(self):
         return f"{self.user.email}-{self.otp}"

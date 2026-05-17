@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>verify otp</h1>
+    <h1>login</h1>
     <form action="" method="POST">
         {% csrf_token %}
         {% if messages %}
@@ -16,8 +16,9 @@
         </div>
         {% endfor %}
         {% endif %}
-        <input type="text" name="otp" id="">
-        <button type="submit">verify</button>
+        <input type="email" name="email" id="">
+        <input type="password" name="password" id="">
+        <button type="submit">Login</button>
     </form>
 </body>
 </html>

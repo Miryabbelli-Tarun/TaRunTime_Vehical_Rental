@@ -14,5 +14,5 @@ admin.site.register(User,UserAdmin)
 
 
 class OtpAdmin(admin.ModelAdmin):
-    list_display=['otp','user','is_used']
+    list_display=['otp','user','is_used','created_at','is_expired']
 admin.site.register(OTP,OtpAdmin)
