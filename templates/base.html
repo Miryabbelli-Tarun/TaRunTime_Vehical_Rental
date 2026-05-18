@@ -428,8 +428,8 @@
             <!-- Center Search Bar -->
             <div class="mx-auto search-box">
 
-                <form action="" method="GET">
-                    {% csrf_token %}
+                <form action="{% url 'all_vehicles' %}" method="GET">
+                    
                     <input 
                         type="text"
                         name="search"

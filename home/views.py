@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-
+from django.db.models import Q
 from home.models import Banner, Category, Vehicle
 
 # Create your views here.
@@ -38,6 +38,18 @@ def all_vehicles_view(request):
 
     if request.method=='GET':
 
+        #nav bar serach button filtering by city,model,descriptin,name,model
+        
+        if request.GET.get('search'):
+            search=request.GET.get('search')
+            vehicles=vehicles.filter(Q(name__icontains=search) |  
+                                     Q(model__icontains=search) | 
+                                     Q(brand__icontains=search) | 
+                                     Q(location__icontains=search) | 
+                                     Q(description__icontains=search)
+                                    )
+
+
         #sort by prices and latest filter section
         if request.GET.get('sort'):
             if request.GET.get('sort')=='low_to_high':
@@ -56,8 +68,8 @@ def all_vehicles_view(request):
         
         #category filter
         if request.GET.getlist('category'):
-            # print(request.GET.getlist('category'))
-            vehicles=vehicles.filter(category_id__in=request.GET.getlist('category'))
+            print(request.GET.getlist('category'))
+            vehicles=vehicles.filter(category__slug__in=request.GET.getlist('category'))
 
         #fuel type filter
         if request.GET.getlist('fuel_type'):
