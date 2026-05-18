@@ -1,0 +1,394 @@
+
+
+{% block content %}
+
+<style>
+
+    .vehicle-section{
+        padding: 70px 0;
+    }
+
+    .section-heading{
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-heading h2{
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 12px;
+    }
+
+    .section-heading p{
+        color: #64748b;
+        font-size: 1rem;
+    }
+
+    /* =========================
+        VEHICLE CARD
+    ========================== */
+
+    .vehicle-card{
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        transition: 0.35s;
+        height: 100%;
+    }
+
+    .vehicle-card:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    /* Vehicle Image */
+
+    .vehicle-image-wrapper{
+        position: relative;
+        overflow: hidden;
+    }
+
+    .vehicle-image{
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: 0.4s;
+    }
+
+    .vehicle-card:hover .vehicle-image{
+        transform: scale(1.06);
+    }
+
+    /* Availability Badge */
+
+    .availability-badge{
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        backdrop-filter: blur(10px);
+    }
+
+    .available{
+        background: rgba(34,197,94,0.9);
+    }
+
+    .not-available{
+        background: rgba(239,68,68,0.9);
+    }
+
+    /* Card Content */
+
+    .vehicle-content{
+        padding: 18px;
+    }
+
+    .vehicle-name{
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 10px;
+    }
+
+    .vehicle-category{
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 50px;
+        background: rgba(255,107,0,0.12);
+        color: #ff6b00;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    /* Vehicle Info */
+
+    .vehicle-info{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        color: #475569;
+        font-size: 14px;
+    }
+
+    .vehicle-info i{
+        color: #ff6b00;
+        margin-right: 5px;
+    }
+
+    /* Price */
+
+    .vehicle-price{
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .price{
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .price span{
+        font-size: 13px;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    /* Button */
+
+    .vehicle-btn{
+        padding: 8px 18px;
+        border-radius: 50px;
+        background: linear-gradient(135deg,#ff6b00,#ff8c42);
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(255,107,0,0.25);
+    }
+
+    .vehicle-card:hover .vehicle-btn{
+        transform: translateY(-2px);
+    }
+
+    /* Explore More Button */
+
+    .explore-more-wrapper{
+        margin-top: 55px;
+        text-align: center;
+    }
+
+    .explore-btn{
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 32px;
+        border-radius: 60px;
+        background: linear-gradient(135deg,#0f172a,#1e293b);
+        color: white;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        transition: 0.3s;
+        box-shadow: 0 8px 22px rgba(15,23,42,0.25);
+    }
+
+    .explore-btn:hover{
+        transform: translateY(-4px);
+        color: white;
+    }
+
+    /* Remove Link Decoration */
+
+    .vehicle-link{
+        text-decoration: none;
+    }
+
+    /* Responsive */
+
+    @media(max-width:768px){
+
+        .section-heading h2{
+            font-size: 2rem;
+        }
+
+        .vehicle-image{
+            height: 220px;
+        }
+
+    }
+
+</style>
+
+
+<section class="vehicle-section">
+
+    <div class="container">
+
+        <!-- Heading -->
+        <div class="section-heading">
+
+            <h2>
+                Explore Premium Vehicles
+            </h2>
+
+            <p>
+                Discover the best cars, bikes, SUVs, and luxury rides for your next journey
+            </p>
+
+        </div>
+
+        <!-- Vehicles Row -->
+        <div class="row g-4">
+
+            {% for vehicle in vehicles %}
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <!-- Entire Card Clickable -->
+                <a 
+                    href="{% url 'vehicle_details' vehicle.slug %}"
+                    class="vehicle-link"
+                >
+
+                    <div class="vehicle-card">
+
+                        <!-- Image -->
+                        <div class="vehicle-image-wrapper">
+
+                            <img 
+                                src="{{ vehicle.image.url }}"
+                                alt="{{ vehicle.name }}"
+                                class="vehicle-image"
+                            >
+
+                            <!-- Availability -->
+                            {% if vehicle.availability %}
+
+                                <span class="availability-badge available">
+
+                                    Available
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="availability-badge not-available">
+
+                                    Not Available
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                        <!-- Content -->
+                        <div class="vehicle-content">
+
+                            <!-- Name -->
+                            <h3 class="vehicle-name">
+
+                                {{ vehicle.name }}
+
+                            </h3>
+
+                            <!-- Category -->
+                            <span class="vehicle-category">
+
+                                {{ vehicle.category.name }}
+
+                            </span>
+
+                            <!-- Capacity & Fuel -->
+                            <div class="vehicle-info">
+
+                                <div>
+
+                                    <i class="bi bi-people-fill"></i>
+
+                                    {{ vehicle.seat_capacity }} Seats
+
+                                </div>
+
+                                <div>
+
+                                    <i class="bi bi-fuel-pump-fill"></i>
+
+                                    {{ vehicle.fuel_type }}
+
+                                </div>
+
+                            </div>
+
+                            <!-- Location -->
+                            <div class="vehicle-info">
+
+                                <div>
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    {{ vehicle.location }}
+
+                                </div>
+
+                                <div>
+
+                                    <i class="bi bi-speedometer2"></i>
+
+                                    {{ vehicle.mileage }}
+
+                                </div>
+
+                            </div>
+
+                            <!-- Price -->
+                            <div class="vehicle-price">
+
+                                <div class="price">
+
+                                    ₹{{ vehicle.price_per_day }}
+
+                                    <span>/day</span>
+
+                                </div>
+
+                                <!-- Fake Button -->
+                                <span class="vehicle-btn">
+
+                                    View
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12 text-center">
+
+                <h4>
+                    No Vehicles Available
+                </h4>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- Explore More -->
+        <div class="explore-more-wrapper">
+
+            <a href="#" class="explore-btn">
+
+                Explore More Vehicles
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
