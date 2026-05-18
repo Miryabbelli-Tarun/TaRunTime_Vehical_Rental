@@ -1,0 +1,658 @@
+{% extends 'base.html' %}
+
+{% block title %}
+All Vehicles | TaRunTime
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .vehicles-page{
+        padding: 60px 0;
+    }
+
+    /* =========================
+        FILTER SIDEBAR
+    ========================== */
+
+    .filter-sidebar{
+        background: white;
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 100px;
+    }
+
+    .filter-title{
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 30px;
+    }
+
+    .filter-group{
+        margin-bottom: 30px;
+    }
+
+    .filter-group h5{
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #0f172a;
+    }
+
+    .form-check{
+        margin-bottom: 10px;
+    }
+
+    .form-check-label{
+        color: #475569;
+        font-size: 14px;
+    }
+
+    .form-select,
+    .form-control{
+        border-radius: 14px;
+        height: 48px;
+        border: 1px solid #cbd5e1;
+    }
+
+    .form-select:focus,
+    .form-control:focus{
+        border-color: #ff6b00;
+        box-shadow: 0 0 0 0.2rem rgba(255,107,0,0.2);
+    }
+
+    .filter-btn{
+        width: 100%;
+        border: none;
+        height: 52px;
+        border-radius: 50px;
+        background: linear-gradient(135deg,#ff6b00,#ff8c42);
+        color: white;
+        font-weight: 600;
+        transition: 0.3s;
+        box-shadow: 0 8px 20px rgba(255,107,0,0.25);
+    }
+
+    .filter-btn:hover{
+        transform: translateY(-3px);
+    }
+
+    /* =========================
+        PAGE HEADER
+    ========================== */
+
+    .vehicles-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 35px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .vehicles-header h2{
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+    }
+
+    .vehicles-count{
+        color: #64748b;
+    }
+
+    /* =========================
+        VEHICLE CARD
+    ========================== */
+
+    .vehicle-link{
+        text-decoration: none;
+    }
+
+    .vehicle-card{
+        background: white;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        transition: 0.35s;
+        height: 100%;
+    }
+
+    .vehicle-card:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+    }
+
+    .vehicle-image-wrapper{
+        position: relative;
+        overflow: hidden;
+    }
+
+    .vehicle-image{
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        transition: 0.4s;
+    }
+
+    .vehicle-card:hover .vehicle-image{
+        transform: scale(1.06);
+    }
+
+    .availability-badge{
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        backdrop-filter: blur(10px);
+    }
+
+    .available{
+        background: rgba(34,197,94,0.9);
+    }
+
+    .not-available{
+        background: rgba(239,68,68,0.9);
+    }
+
+    /* Content */
+
+    .vehicle-content{
+        padding: 18px;
+    }
+
+    .vehicle-name{
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 10px;
+    }
+
+    .vehicle-category{
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 50px;
+        background: rgba(255,107,0,0.12);
+        color: #ff6b00;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .vehicle-info{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        color: #475569;
+        font-size: 14px;
+    }
+
+    .vehicle-info i{
+        color: #ff6b00;
+        margin-right: 5px;
+    }
+
+    .vehicle-price{
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .price{
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .price span{
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .view-btn{
+        padding: 8px 18px;
+        border-radius: 50px;
+        background: linear-gradient(135deg,#ff6b00,#ff8c42);
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(255,107,0,0.25);
+    }
+
+    /* =========================
+        RESPONSIVE
+    ========================== */
+
+    @media(max-width:991px){
+
+        .filter-sidebar{
+            margin-bottom: 30px;
+            position: static;
+        }
+
+    }
+
+</style>
+
+
+<section class="vehicles-page">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <!-- =========================
+                FILTER SIDEBAR
+            ========================== -->
+
+            <div class="col-lg-3">
+
+                <div class="filter-sidebar">
+
+                    <h3 class="filter-title">
+
+                        Filters
+
+                    </h3>
+
+                    <form method="GET">
+
+                        <!-- Sort -->
+                        <div class="filter-group">
+
+                            <h5>
+                                Sort By
+                            </h5>
+
+                            <select class="form-select" name="sort">
+
+                                <option value="">
+                                    Select
+                                </option>
+
+                                <option value="low_to_high">
+                                    Price Low to High
+                                </option>
+
+                                <option value="high_to_low">
+                                    Price High to Low
+                                </option>
+
+                                <option value="latest">
+                                    Latest Vehicles
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="filter-group">
+
+                            <h5>
+                                Price Range
+                            </h5>
+
+                            <input 
+                                type="number"
+                                name="min_price"
+                                class="form-control mb-3"
+                                placeholder="Min Price"
+                            >
+
+                            <input 
+                                type="number"
+                                name="max_price"
+                                class="form-control"
+                                placeholder="Max Price"
+                            >
+
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="filter-group">
+
+                            <h5>
+                                Categories
+                            </h5>
+
+                            {% for category in categories %}
+
+                            <div class="form-check">
+
+                                <input 
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value="{{ category.id }}"
+                                    name="category"
+                                    id="category{{ category.id }}"
+                                >
+
+                                <label 
+                                    class="form-check-label"
+                                    for="category{{ category.id }}"
+                                >
+
+                                    {{ category.name }}
+
+                                </label>
+
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- Fuel Type -->
+                        <div class="filter-group">
+
+                            <h5>
+                                Fuel Type
+                            </h5>
+
+                            <div class="form-check">
+
+                                <input 
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value="petrol"
+                                    name="fuel_type"
+                                    id="petrol"
+                                >
+
+                                <label class="form-check-label" for="petrol">
+
+                                    Petrol
+
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input 
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value="diesel"
+                                    name="fuel_type"
+                                    id="diesel"
+                                >
+
+                                <label class="form-check-label" for="diesel">
+
+                                    Diesel
+
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input 
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value="electric"
+                                    name="fuel_type"
+                                    id="electric"
+                                >
+
+                                <label class="form-check-label" for="electric">
+
+                                    Electric
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Capacity -->
+                        <div class="filter-group">
+
+                            <h5>
+                                Seat Capacity
+                            </h5>
+
+                            <select class="form-select" name="capacity">
+
+                                <option value="">
+                                    Select Capacity
+                                </option>
+
+                                <option value="2">
+                                    2 Seats
+                                </option>
+
+                                <option value="4">
+                                    4 Seats
+                                </option>
+
+                                <option value="5">
+                                    5 Seats
+                                </option>
+
+                                <option value="7">
+                                    7+ Seats
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- Availability -->
+                        <div class="filter-group">
+
+                            <h5>
+                                Availability
+                            </h5>
+
+                            <div class="form-check">
+
+                                <input 
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value="true"
+                                    name="available"
+                                    id="available"
+                                >
+
+                                <label class="form-check-label" for="available">
+
+                                    Available Only
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Button -->
+                        <button type="submit" class="filter-btn">
+
+                            Apply Filters
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                VEHICLES SECTION
+            ========================== -->
+
+            <div class="col-lg-9">
+
+                <!-- Header -->
+                <div class="vehicles-header">
+
+                    <div>
+
+                        <h2>
+                            Explore Vehicles
+                        </h2>
+
+                        <p class="vehicles-count">
+
+                            {{ vehicles|length }} Vehicles Found
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Vehicles -->
+                <div class="row g-4">
+
+                    {% for vehicle in vehicles %}
+
+                    <div class="col-12 col-md-6 col-lg-4">
+
+                        <a href="{% url 'vehicle_details' vehicle.slug %}" class="vehicle-link">
+
+                            <div class="vehicle-card">
+
+                                <!-- Image -->
+                                <div class="vehicle-image-wrapper">
+
+                                    <img 
+                                        src="{{ vehicle.image.url }}"
+                                        alt="{{ vehicle.name }}"
+                                        class="vehicle-image"
+                                    >
+
+                                    {% if vehicle.availability %}
+
+                                        <span class="availability-badge available">
+
+                                            Available
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="availability-badge not-available">
+
+                                            Not Available
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <!-- Content -->
+                                <div class="vehicle-content">
+
+                                    <!-- Name -->
+                                    <h3 class="vehicle-name">
+
+                                        {{ vehicle.name }}
+
+                                    </h3>
+
+                                    <!-- Category -->
+                                    <span class="vehicle-category">
+
+                                        {{ vehicle.category.name }}
+
+                                    </span>
+
+                                    <!-- Capacity -->
+                                    <div class="vehicle-info">
+
+                                        <div>
+
+                                            <i class="bi bi-people-fill"></i>
+
+                                            {{ vehicle.seat_capacity }} Seats
+
+                                        </div>
+
+                                        <div>
+
+                                            <i class="bi bi-fuel-pump-fill"></i>
+
+                                            {{ vehicle.fuel_type }}
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Location -->
+                                    <div class="vehicle-info">
+
+                                        <div>
+
+                                            <i class="bi bi-geo-alt-fill"></i>
+
+                                            {{ vehicle.location }}
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Price -->
+                                    <div class="vehicle-price">
+
+                                        <div class="price">
+
+                                            ₹{{ vehicle.price_per_day }}
+
+                                            <span>/day</span>
+
+                                        </div>
+
+                                        <span class="view-btn">
+
+                                            View
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    {% empty %}
+
+                    <div class="col-12 text-center">
+
+                        <h4>
+                            No Vehicles Found
+                        </h4>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

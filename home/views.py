@@ -30,3 +30,49 @@ def vehicle_details_view(request,vehicle_slug):
         'vehicle':vehicle,
     }
     return render(request,'vehicle_details.html',context)
+
+
+def all_vehicles_view(request):
+    vehicles=Vehicle.objects.all()
+    categories=Category.objects.all()
+
+    if request.method=='GET':
+
+        #sort by prices and latest filter section
+        if request.GET.get('sort'):
+            if request.GET.get('sort')=='low_to_high':
+                vehicles=vehicles.order_by('price_per_day')
+            elif request.GET.get('sort')=='high_to_low':
+                vehicles=vehicles.order_by('-price_per_day')
+            elif request.GET.get('sort')=='latest':
+                vehicles=vehicles.order_by('-created_at')
+
+        #price range filter
+        if request.GET.get('min_price') or request.GET.get('max_price'):
+            if request.GET.get('min_price'):
+                vehicles=vehicles.filter(price_per_day__gte=request.GET.get('min_price'))
+            if request.GET.get('max_price'):
+                vehicles=vehicles.filter(price_per_day__lte=request.GET.get('max_price'))
+        
+        #category filter
+        if request.GET.getlist('category'):
+            # print(request.GET.getlist('category'))
+            vehicles=vehicles.filter(category_id__in=request.GET.getlist('category'))
+
+        #fuel type filter
+        if request.GET.getlist('fuel_type'):
+            # print(request.GET.getlist('fuel_type'))
+            vehicles=vehicles.filter(fuel_type__in=request.GET.getlist('fuel_type'))
+
+        #filter vehicles based on seat capacity
+        if request.GET.get('capacity'):
+            vehicles=vehicles.filter(seat_capacity__gte=request.GET.get('capacity'))
+        
+        #filter based on availability
+        if request.GET.get('available'):
+            vehicles=vehicles.filter(availability=True)
+    context={
+        'vehicles':vehicles,
+        'categories':categories,
+    }
+    return render(request,'all_vehicles.html',context)
