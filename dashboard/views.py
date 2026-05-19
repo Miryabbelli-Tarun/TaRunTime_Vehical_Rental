@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 
 from dashboard.models import VendorRequest
+from home.models import Category, Vehicle
 
 User=get_user_model()
 # Create your views here.
@@ -115,3 +116,53 @@ def reject_vendor_view(request,id):
     vendor_request.status='rejected'
     vendor_request.save()
     return redirect('approve_vendor_requests')
+
+
+
+
+def add_vehicle_view(request):
+    
+    #check that users is vendor or not
+    if not request.user.is_vendor:
+        messages.warning(request,"access denied")
+        return redirect('profile')
+    categories=Category.objects.all()
+    if request.method=='POST':
+        vendor=request.user
+        category=get_object_or_404(Category,id=request.POST.get('category'))
+        name=request.POST.get('name')
+        vehicle_number=request.POST.get('vehicle_number')
+        model=request.POST.get('model')
+        brand=request.POST.get('brand')
+        year=request.POST.get('year')
+        fuel_type=request.POST.get('fuel_type')
+        seat_capacity=request.POST.get('seat_capacity')
+        mileage=request.POST.get('mileage')
+        price_per_day=request.POST.get('price_per_day')
+        location=request.POST.get('location')
+        description=request.POST.get('description')
+        image=request.FILES.get('image')
+        # print(vendor,category, name,vehicle_number,model ,brand,year,fuel_type,seat_capacity,mileage,price_per_day,location,description,image)
+        vehicle=Vehicle.objects.create(
+            vendor=request.user,
+            category=category,
+            name=name,
+            vehicle_number=vehicle_number,
+            model=model,
+            brand=brand,
+            year=year,
+            fuel_type=fuel_type,
+            seat_capacity=seat_capacity,
+            mileage=mileage,
+            price_per_day=price_per_day,
+            location=location,
+            description=description,
+            image=image
+        )
+        messages.success(request,"vehicle added succesfully")
+        return redirect('add_vehicle')
+
+    context={
+        'categories':categories
+    }
+    return render(request,'dashboard/vendor/add_vehicle.html',context)
