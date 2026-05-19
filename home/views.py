@@ -31,15 +31,14 @@ def vehicle_details_view(request,vehicle_slug):
     }
     return render(request,'vehicle_details.html',context)
 
-
+#all vehicles with filter section
 def all_vehicles_view(request):
     vehicles=Vehicle.objects.all()
     categories=Category.objects.all()
 
     if request.method=='GET':
 
-        #nav bar serach button filtering by city,model,descriptin,name,model
-        
+        #nav bar serach button filtering by city,model,descriptin,name,model   
         if request.GET.get('search'):
             search=request.GET.get('search')
             vehicles=vehicles.filter(Q(name__icontains=search) |  
@@ -66,7 +65,7 @@ def all_vehicles_view(request):
             if request.GET.get('max_price'):
                 vehicles=vehicles.filter(price_per_day__lte=request.GET.get('max_price'))
         
-        #category filter
+        #category filter and \\\ also used for home and category card click filter
         if request.GET.getlist('category'):
             print(request.GET.getlist('category'))
             vehicles=vehicles.filter(category__slug__in=request.GET.getlist('category'))
@@ -88,3 +87,10 @@ def all_vehicles_view(request):
         'categories':categories,
     }
     return render(request,'all_vehicles.html',context)
+
+#about page
+def about_view(request):
+    return render(request,'about.html')
+
+def contact_view(request):
+    return render(request,'contact.html')

@@ -1,0 +1,591 @@
+{% extends 'base.html' %}
+
+{% block title %}
+About Us | TaRunTime
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =========================
+        ABOUT HERO
+    ========================== */
+
+    .about-hero{
+        padding: 100px 0;
+        background: linear-gradient(
+            135deg,
+            #0f172a,
+            #1e293b
+        );
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-hero::before{
+        content: '';
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 50%;
+        top: -120px;
+        right: -120px;
+    }
+
+    .about-hero::after{
+        content: '';
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        background: rgba(255,107,0,0.12);
+        border-radius: 50%;
+        bottom: -100px;
+        left: -80px;
+    }
+
+    .hero-content{
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content h1{
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p{
+        font-size: 1.1rem;
+        line-height: 1.9;
+        color: #cbd5e1;
+        max-width: 750px;
+    }
+
+    /* =========================
+        ABOUT SECTION
+    ========================== */
+
+    .about-section{
+        padding: 90px 0;
+    }
+
+    .section-title{
+        margin-bottom: 25px;
+    }
+
+    .section-title h2{
+        font-size: 2.7rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .about-text{
+        color: #475569;
+        line-height: 1.9;
+        font-size: 1rem;
+    }
+
+    .about-image{
+        width: 100%;
+        border-radius: 28px;
+        object-fit: cover;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+    }
+
+    /* =========================
+        STATS SECTION
+    ========================== */
+
+    .stats-section{
+        padding: 80px 0;
+        background: #f8fafc;
+    }
+
+    .stat-card{
+        background: white;
+        border-radius: 24px;
+        padding: 40px 25px;
+        text-align: center;
+        transition: 0.35s;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        height: 100%;
+    }
+
+    .stat-card:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+
+    .stat-icon{
+        width: 80px;
+        height: 80px;
+        margin: auto;
+        border-radius: 50%;
+        background: rgba(255,107,0,0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .stat-icon i{
+        font-size: 2rem;
+        color: #ff6b00;
+    }
+
+    .stat-card h2{
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 10px;
+    }
+
+    .stat-card p{
+        color: #64748b;
+        margin: 0;
+    }
+
+    /* =========================
+        WHY CHOOSE US
+    ========================== */
+
+    .why-section{
+        padding: 90px 0;
+    }
+
+    .feature-card{
+        background: white;
+        border-radius: 24px;
+        padding: 35px 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        transition: 0.35s;
+        height: 100%;
+    }
+
+    .feature-card:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon{
+        width: 70px;
+        height: 70px;
+        border-radius: 20px;
+        background: linear-gradient(135deg,#ff6b00,#ff8c42);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .feature-icon i{
+        color: white;
+        font-size: 1.8rem;
+    }
+
+    .feature-card h4{
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #0f172a;
+    }
+
+    .feature-card p{
+        color: #64748b;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    /* =========================
+        CTA SECTION
+    ========================== */
+
+    .cta-section{
+        padding: 90px 0;
+        background: linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8c42
+        );
+        color: white;
+        text-align: center;
+    }
+
+    .cta-section h2{
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .cta-section p{
+        max-width: 700px;
+        margin: auto;
+        line-height: 1.9;
+        font-size: 1.05rem;
+        margin-bottom: 35px;
+    }
+
+    .cta-btn{
+        display: inline-block;
+        padding: 16px 36px;
+        border-radius: 50px;
+        background: white;
+        color: #ff6b00;
+        text-decoration: none;
+        font-weight: 700;
+        transition: 0.35s;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    .cta-btn:hover{
+        transform: translateY(-4px);
+        color: #ff6b00;
+    }
+
+    /* =========================
+        RESPONSIVE
+    ========================== */
+
+    @media(max-width:991px){
+
+        .hero-content h1{
+            font-size: 3rem;
+        }
+
+        .section-title h2{
+            font-size: 2.2rem;
+        }
+
+        .cta-section h2{
+            font-size: 2.3rem;
+        }
+
+    }
+
+    @media(max-width:576px){
+
+        .hero-content h1{
+            font-size: 2.3rem;
+        }
+
+        .section-title h2{
+            font-size: 1.9rem;
+        }
+
+        .cta-section h2{
+            font-size: 1.9rem;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================
+    HERO SECTION
+========================= -->
+
+<section class="about-hero">
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <h1>
+                About TaRunTime
+            </h1>
+
+            <p>
+                TaRunTime is a modern vehicle rental marketplace designed to make travel simple, affordable, and accessible. From luxury cars and SUVs to bikes and electric vehicles, we connect users with the perfect ride for every journey.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+    ABOUT SECTION
+========================= -->
+
+<section class="about-section">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <!-- Content -->
+            <div class="col-lg-6">
+
+                <div class="section-title">
+
+                    <h2>
+                        Drive Your Journey With Confidence
+                    </h2>
+
+                </div>
+
+                <p class="about-text">
+
+                    At TaRunTime, we believe renting a vehicle should be seamless and enjoyable. Our platform offers a wide range of premium vehicles for every need — whether it’s a family trip, business travel, weekend adventure, or luxury experience.
+
+                </p>
+
+                <p class="about-text">
+
+                    We focus on convenience, transparent pricing, verified vendors, and exceptional customer experience. With advanced search, smart filtering, and secure booking systems, TaRunTime makes mobility smarter and faster.
+
+                </p>
+
+            </div>
+
+            <!-- Image -->
+            <div class="col-lg-6">
+
+                <img 
+                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop"
+                    alt="About TaRunTime"
+                    class="about-image"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+    STATS SECTION
+========================= -->
+
+<section class="stats-section">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-car-front-fill"></i>
+
+                    </div>
+
+                    <h2>
+                        500+
+                    </h2>
+
+                    <p>
+                        Premium Vehicles
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-people-fill"></i>
+
+                    </div>
+
+                    <h2>
+                        10K+
+                    </h2>
+
+                    <p>
+                        Happy Customers
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-geo-alt-fill"></i>
+
+                    </div>
+
+                    <h2>
+                        50+
+                    </h2>
+
+                    <p>
+                        Locations Covered
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-star-fill"></i>
+
+                    </div>
+
+                    <h2>
+                        4.9★
+                    </h2>
+
+                    <p>
+                        Customer Ratings
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+    WHY CHOOSE US
+========================= -->
+
+<section class="why-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <div class="section-title">
+
+                <h2>
+                    Why Choose TaRunTime
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-lightning-charge-fill"></i>
+
+                    </div>
+
+                    <h4>
+                        Instant Booking
+                    </h4>
+
+                    <p>
+                        Book vehicles quickly with a smooth and user-friendly experience designed for speed and convenience.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <h4>
+                        Trusted Vendors
+                    </h4>
+
+                    <p>
+                        All vehicle providers are verified to ensure quality service, safety, and trusted rentals.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-currency-rupee"></i>
+
+                    </div>
+
+                    <h4>
+                        Affordable Pricing
+                    </h4>
+
+                    <p>
+                        Transparent pricing with no hidden costs, giving you the best value for every ride.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+    CTA SECTION
+========================= -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <h2>
+            Ready To Explore?
+        </h2>
+
+        <p>
+            Start your journey today with TaRunTime and discover the perfect vehicle for your next adventure.
+        </p>
+
+        <a href="{% url 'all_vehicles' %}" class="cta-btn">
+
+            Explore Vehicles
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

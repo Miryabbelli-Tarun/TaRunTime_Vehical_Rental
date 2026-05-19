@@ -408,11 +408,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                 </li>
 
                 <!-- {% if request.user.is_authenticated and not request.user.is_vendor and not request.user.wants_vendor %}
@@ -508,7 +508,7 @@
 
                             <!-- GENERAL CUSTOMER ACCOUNT CONSOLE -->
                             <li><div class="dropdown-header-role text-warning bg-warning-subtle">Customer Menu</div></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-bounding-box"></i> My Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-bounding-box"></i> My Profile</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-journal-check"></i> My Bookings</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-heart-fill"></i> Wishlist</a></li>
                             {% if not request.user.is_vendor and not request.user.wants_vendor %}
@@ -609,11 +609,11 @@
                 <h5 class="footer-title">Quick Links</h5>
 
                 <div class="footer-links">
-                    <a href="#">Home</a>
-                    <a href="#">Vehicles</a>
-                    <a href="#">Categories</a>
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
+                    <a href="{% url 'home' %}">Home</a>
+                    <a href="{% url 'all_vehicles' %}">Vehicles</a>
+                    <a href="{% url 'category_list' %}">Categories</a>
+                    <a href="{% url 'about' %}">About</a>
+                    <a href="{% url 'contact' %}">Contact</a>
                 </div>
 
             </div>

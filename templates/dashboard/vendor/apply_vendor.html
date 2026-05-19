@@ -1,0 +1,487 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}
+Apply For Vendor | TaRunTime
+{% endblock %}
+
+{% block dashboard_content %}
+
+
+{% if messages %}
+
+    {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+
+            {{ message }}
+
+            <button 
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+            ></button>
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+<style>
+
+    /* =========================
+        PAGE HEADER
+    ========================== */
+
+    .vendor-header{
+        margin-bottom: 35px;
+    }
+
+    .vendor-header h2{
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 12px;
+    }
+
+    .vendor-header p{
+        color: #64748b;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    /* =========================
+        FORM CARD
+    ========================== */
+
+    .vendor-form-card{
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    }
+
+    /* =========================
+        TOP BANNER
+    ========================== */
+
+    .vendor-banner{
+        padding: 60px 40px;
+        background: linear-gradient(
+            135deg,
+            #0f172a,
+            #1e293b
+        );
+        position: relative;
+        overflow: hidden;
+    }
+
+    .vendor-banner::before{
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+        top: -100px;
+        right: -80px;
+    }
+
+    .vendor-banner::after{
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: rgba(255,107,0,0.15);
+        border-radius: 50%;
+        bottom: -70px;
+        left: -40px;
+    }
+
+    .vendor-banner-content{
+        position: relative;
+        z-index: 2;
+    }
+
+    .vendor-banner h3{
+        color: white;
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .vendor-banner p{
+        color: #cbd5e1;
+        line-height: 1.8;
+        margin: 0;
+        max-width: 700px;
+    }
+
+    /* =========================
+        FORM BODY
+    ========================== */
+
+    .vendor-form-body{
+        padding: 40px;
+    }
+
+    .form-label{
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 10px;
+    }
+
+    .form-control{
+        height: 56px;
+        border-radius: 16px;
+        border: 1px solid #cbd5e1;
+        padding: 14px 18px;
+        margin-bottom: 22px;
+    }
+
+    textarea.form-control{
+        height: 160px;
+        resize: none;
+    }
+
+    .form-control:focus{
+        border-color: #ff6b00;
+        box-shadow: 0 0 0 0.2rem rgba(255,107,0,0.15);
+    }
+
+    /* =========================
+        FEATURES
+    ========================== */
+
+    .feature-box{
+        background: #f8fafc;
+        border-radius: 20px;
+        padding: 22px;
+        margin-bottom: 30px;
+    }
+
+    .feature-box h5{
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 15px;
+    }
+
+    .feature-list{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 15px;
+    }
+
+    .feature-item{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #475569;
+        font-weight: 500;
+    }
+
+    .feature-item i{
+        color: #22c55e;
+        font-size: 1rem;
+    }
+
+    /* =========================
+        SUBMIT BUTTON
+    ========================== */
+
+    .submit-btn{
+        width: 100%;
+        height: 60px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8c42
+        );
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: 0.35s;
+        box-shadow: 0 12px 25px rgba(255,107,0,0.25);
+    }
+
+    .submit-btn:hover{
+        transform: translateY(-4px);
+    }
+
+    /* =========================
+        RESPONSIVE
+    ========================== */
+
+    @media(max-width:768px){
+
+        .vendor-form-body{
+            padding: 25px;
+        }
+
+        .vendor-banner{
+            padding: 40px 25px;
+        }
+
+        .vendor-banner h3{
+            font-size: 1.7rem;
+        }
+
+        .feature-list{
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+    @media(max-width:576px){
+
+        .vendor-header h2{
+            font-size: 1.8rem;
+        }
+
+        .vendor-form-body{
+            padding: 20px;
+        }
+
+        .vendor-banner{
+            padding: 35px 20px;
+        }
+
+        .vendor-banner h3{
+            font-size: 1.5rem;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================
+    PAGE HEADER
+========================= -->
+
+<div class="vendor-header">
+
+    <h2>
+        Apply For Vendor
+    </h2>
+
+    <p>
+        Become a trusted vendor on TaRunTime and start listing your vehicles to reach thousands of customers.
+    </p>
+
+</div>
+
+
+<!-- =========================
+    FORM CARD
+========================= -->
+
+<div class="vendor-form-card">
+
+    <!-- Banner -->
+
+    <div class="vendor-banner">
+
+        <div class="vendor-banner-content">
+
+            <h3>
+                Start Your Vendor Journey
+            </h3>
+
+            <p>
+                Fill out the application form below. Our team will review your request and activate your vendor account after verification.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Form Body -->
+
+    <div class="vendor-form-body">
+
+        <!-- Features -->
+
+        <div class="feature-box">
+
+            <h5>
+                Vendor Benefits
+            </h5>
+
+            <div class="feature-list">
+
+                <div class="feature-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Add Unlimited Vehicles
+
+                </div>
+
+                <div class="feature-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Manage Bookings Easily
+
+                </div>
+
+                <div class="feature-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Track Earnings
+
+                </div>
+
+                <div class="feature-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Vendor Analytics Dashboard
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FORM -->
+
+        <form action="{% url 'apply_vendor' %}" method="POST">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- Full Name -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Full Name
+
+                    </label>
+
+                    <input 
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter full name"
+                        name="full_name"
+                    >
+
+                </div>
+
+                <!-- Business Name -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Business Name
+
+                    </label>
+
+                    <input 
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter business name"
+                        name="business_name"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!-- Phone -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Phone Number
+
+                    </label>
+
+                    <input 
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter phone number"
+                        name="phone"
+                    >
+
+                </div>
+
+                <!-- Email -->
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Email Address
+
+                    </label>
+
+                    <input 
+                        type="email"
+                        class="form-control"
+                        placeholder="Enter email address"
+                        name="email"
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- Location -->
+
+            <label class="form-label">
+
+                Location
+
+            </label>
+
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="Enter your location"
+                name="location"
+            >
+
+            <!-- Experience -->
+
+            <label class="form-label">
+
+                Business Experience
+
+            </label>
+
+            <textarea 
+                class="form-control"
+                placeholder="Tell us about your rental business..."
+                name="experience"
+            ></textarea>
+
+            <!-- Submit -->
+
+            <button type="submit" class="submit-btn">
+
+                <i class="bi bi-send-fill me-2"></i>
+
+                Submit Vendor Application
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

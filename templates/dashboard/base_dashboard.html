@@ -1,0 +1,685 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard | TaRunTime
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .dashboard-section {
+        padding: 40px 0;
+        background: #f8fafc;
+        min-height: 100vh;
+    }
+
+    /* =========================
+        MOBILE TOGGLE BUTTON
+    ========================== */
+
+    .mobile-menu-btn {
+        width: 100%;
+        height: 55px;
+        border: none;
+        border-radius: 18px;
+        background: linear-gradient(135deg,
+                #ff6b00,
+                #ff8c42);
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px rgba(255, 107, 0, 0.25);
+    }
+
+    /* =========================
+        SIDEBAR
+    ========================== */
+
+    .dashboard-sidebar {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 100px;
+    }
+
+    .menu-title {
+        padding: 14px 20px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .customer-title {
+        background: #fef3c7;
+        color: #f59e0b;
+    }
+
+    .vendor-title {
+        background: #d1fae5;
+        color: #059669;
+    }
+
+    .admin-title {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    /* =========================
+        MENU
+    ========================== */
+
+    .dashboard-menu {
+        padding: 15px 0;
+    }
+
+    .dashboard-menu a {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 16px 22px;
+        text-decoration: none;
+        color: #334155;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .dashboard-menu a:hover {
+        background: #fff7ed;
+        color: #ff6b00;
+    }
+
+    .dashboard-menu i {
+        font-size: 1.3rem;
+    }
+
+    .logout-link {
+        color: #ef4444 !important;
+    }
+
+    .logout-link:hover {
+        background: #fef2f2 !important;
+    }
+
+    /* =========================
+        CONTENT
+    ========================== */
+
+    .dashboard-content {
+        background: white;
+        border-radius: 24px;
+        padding: 35px;
+        min-height: 700px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .dashboard-content h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-content p {
+        color: #64748b;
+        line-height: 1.8;
+    }
+
+    /* =========================
+        OFFCANVAS
+    ========================== */
+
+    .offcanvas {
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+    }
+
+    .offcanvas-header {
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .dashboard-menu a.active {
+
+        background: rgba(255, 107, 0, 0.12);
+
+        color: #ff6b00;
+
+        border-radius: 16px;
+
+        margin: 0 12px;
+
+        border: 1px solid rgba(255, 107, 0, 0.15);
+
+        font-weight: 700;
+
+    }
+
+    .dashboard-menu a.active i {
+
+        color: #ff6b00;
+
+    }
+
+    /* =========================
+        RESPONSIVE
+    ========================== */
+
+    @media(max-width:991px) {
+
+        .dashboard-content {
+            padding: 25px;
+        }
+
+    }
+
+    @media(max-width:576px) {
+
+        .dashboard-section {
+            padding: 25px 0;
+        }
+
+        .dashboard-content {
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .dashboard-content h2 {
+            font-size: 1.7rem;
+        }
+
+        .dashboard-menu a {
+            font-size: 0.95rem;
+            padding: 14px 18px;
+        }
+
+    }
+</style>
+
+
+<section class="dashboard-section">
+
+    <div class="container">
+
+        <!-- =========================
+            MOBILE MENU BUTTON
+        ========================== -->
+
+        <div class="d-lg-none">
+
+            <button class="mobile-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#dashboardSidebar">
+
+                <i class="bi bi-list me-2"></i>
+
+                Dashboard Menu
+
+            </button>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- =========================
+                DESKTOP SIDEBAR
+            ========================== -->
+
+            <div class="col-lg-3 d-none d-lg-block">
+
+                <div class="dashboard-sidebar">
+
+                    <!-- CUSTOMER MENU -->
+
+                    <div class="menu-title customer-title">
+
+                        Customer Menu
+
+                    </div>
+
+                    <div class="dashboard-menu">
+
+                        <a href="{% url 'profile' %}"
+                            class="{% if request.path == '/dashboard/profile/' %}active{% endif %}">
+
+                            <i class="bi bi-person-badge"></i>
+
+                            My Profile
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-journal-check"></i>
+
+                            My Bookings
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-heart-fill"></i>
+
+                            Wishlist
+
+                        </a>
+
+                        <a href="{% url 'apply_vendor' %}" class="{% if request.path == '/dashboard/apply-for-vendor' %}active{% endif %}">
+
+                            <i class="bi bi-shop"></i>
+
+                            Become Vendor
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-gear"></i>
+
+                            Settings
+
+                        </a>
+
+                    </div>
+
+                    <!-- VENDOR MENU -->
+
+                    {% if request.user.is_vendor %}
+
+                    <div class="menu-title vendor-title">
+
+                        Vendor Menu
+
+                    </div>
+
+                    <div class="dashboard-menu">
+
+                        <a href="#">
+
+                            <i class="bi bi-grid"></i>
+
+                            Vendor Dashboard
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-plus-circle"></i>
+
+                            Add Vehicle
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-car-front-fill"></i>
+
+                            My Vehicles
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-calendar-check"></i>
+
+                            Booking Requests
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-wallet2"></i>
+
+                            Earnings
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-sliders"></i>
+
+                            Analytics
+
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                    <!-- ADMIN MENU -->
+
+                    {% if request.user.is_superuser %}
+
+                    <div class="menu-title admin-title">
+
+                        Admin Controls
+
+                    </div>
+
+                    <div class="dashboard-menu">
+
+                        <a href="#">
+
+                            <i class="bi bi-speedometer2"></i>
+
+                            Admin Dashboard
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-people"></i>
+
+                            Manage Users
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-car-front"></i>
+
+                            Manage Vehicles
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-tags"></i>
+
+                            Categories CRUD
+
+                        </a>
+
+                        <a href="{% url 'approve_vendor_requests' %}">
+
+                            <i class="bi bi-person-check"></i>
+
+                            Vendor Requests
+
+                        </a>
+
+                        <a href="#">
+
+                            <i class="bi bi-graph-up-arrow"></i>
+
+                            Reports
+
+                        </a>
+
+                    </div>
+
+                    {% endif %}
+
+                    <!-- LOGOUT -->
+
+                    <div class="dashboard-menu">
+
+                        <a href="#" class="logout-link">
+
+                            <i class="bi bi-box-arrow-right"></i>
+
+                            Logout
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =========================
+                MAIN CONTENT
+            ========================== -->
+
+            <div class="col-lg-9">
+
+                <div class="dashboard-content">
+
+                    {% block dashboard_content %}
+
+                    <h2>
+                        Dashboard
+                    </h2>
+
+                    <p>
+                        Welcome to TaRunTime Dashboard.
+                    </p>
+
+                    {% endblock %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+    MOBILE SIDEBAR
+========================= -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="dashboardSidebar">
+
+    <div class="offcanvas-header">
+
+        <h5 class="fw-bold">
+
+            Dashboard Menu
+
+        </h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+
+    </div>
+
+    <div class="offcanvas-body p-0">
+
+        <div class="dashboard-sidebar shadow-none rounded-0">
+
+            <!-- CUSTOMER MENU -->
+
+            <div class="menu-title customer-title">
+
+                Customer Menu
+
+            </div>
+
+            <div class="dashboard-menu">
+
+                <a href="#">
+
+                    <i class="bi bi-person-badge"></i>
+
+                    My Profile
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-journal-check"></i>
+
+                    My Bookings
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-heart-fill"></i>
+
+                    Wishlist
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-shop"></i>
+
+                    Become Vendor
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-gear"></i>
+
+                    Settings
+
+                </a>
+
+            </div>
+
+            <!-- VENDOR MENU -->
+
+            {% if request.user.is_vendor %}
+
+            <div class="menu-title vendor-title">
+
+                Vendor Menu
+
+            </div>
+
+            <div class="dashboard-menu">
+
+                <a href="#">
+
+                    <i class="bi bi-grid"></i>
+
+                    Vendor Dashboard
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-plus-circle"></i>
+
+                    Add Vehicle
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-car-front-fill"></i>
+
+                    My Vehicles
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                    Booking Requests
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-wallet2"></i>
+
+                    Earnings
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-sliders"></i>
+
+                    Analytics
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+            <!-- ADMIN MENU -->
+
+            {% if request.user.is_superuser %}
+
+            <div class="menu-title admin-title">
+
+                Admin Controls
+
+            </div>
+
+            <div class="dashboard-menu">
+
+                <a href="#">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    Admin Dashboard
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-people"></i>
+
+                    Manage Users
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-car-front"></i>
+
+                    Manage Vehicles
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-tags"></i>
+
+                    Categories CRUD
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-person-check"></i>
+
+                    Vendor Requests
+
+                </a>
+
+                <a href="#">
+
+                    <i class="bi bi-graph-up-arrow"></i>
+
+                    Reports
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+            <!-- LOGOUT -->
+
+            <div class="dashboard-menu">
+
+                <a href="#" class="logout-link">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
