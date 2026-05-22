@@ -9,4 +9,5 @@ urlpatterns = [
     path('approve_vendor/<int:id>/',views.approve_vendor_view,name='approve_vendor'),
     path('reject_vendor/<int:id>/',views.reject_vendor_view,name='reject_vendor'),
     path('add_vehicle/',views.add_vehicle_view,name='add_vehicle'),
+    path('my_vehicles/',views.my_vehicles_view,name='my_vehicles'),
 ]

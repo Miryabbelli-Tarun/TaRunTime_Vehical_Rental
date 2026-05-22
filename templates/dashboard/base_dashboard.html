@@ -303,7 +303,7 @@ Dashboard | TaRunTime
 
                         </a>
 
-                        <a href="{% url 'add_vehicle' %}">
+                        <a href="{% url 'add_vehicle' %}" class="{% if request.path == 'dashboard/add_vehicle/' %}active{% endif %}">
 
                             <i class="bi bi-plus-circle"></i>
 
@@ -311,7 +311,7 @@ Dashboard | TaRunTime
 
                         </a>
 
-                        <a href="#">
+                        <a href="{% url 'my_vehicles' %}" class="{% if request.path == '/dashboard/add_vehicle/' %}active{% endif %}">
 
                             <i class="bi bi-car-front-fill"></i>
 

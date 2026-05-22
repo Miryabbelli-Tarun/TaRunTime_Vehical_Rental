@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -166,3 +167,12 @@ def add_vehicle_view(request):
         'categories':categories
     }
     return render(request,'dashboard/vendor/add_vehicle.html',context)
+
+
+def my_vehicles_view(request):
+    vendor=request.user
+    my_vehicles=vendor.vehicles.all()
+    context={
+        "my_vehicles":my_vehicles
+    }
+    return render(request,'dashboard/vendor/my_vehicles.html',context)

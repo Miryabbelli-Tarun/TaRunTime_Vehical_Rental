@@ -1,0 +1,539 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}
+My Vehicles | TaRunTime
+{% endblock %}
+
+{% block dashboard_content %}
+
+<style>
+
+    .vehicle-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 35px;
+    }
+
+    .vehicle-header h2{
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 8px;
+    }
+
+    .vehicle-header p{
+        color: #64748b;
+        margin: 0;
+    }
+
+    /* =========================
+        ADD BUTTON
+    ========================== */
+
+    .add-btn{
+        padding: 14px 24px;
+        border-radius: 50px;
+        background: linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8c42
+        );
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        transition: 0.3s;
+        box-shadow: 0 12px 25px rgba(255,107,0,0.2);
+    }
+
+    .add-btn:hover{
+        transform: translateY(-3px);
+        color: white;
+    }
+
+    /* =========================
+        VEHICLE CARD
+    ========================== */
+
+    .vehicle-card{
+        background: white;
+        border-radius: 26px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        transition: 0.3s;
+        height: 100%;
+    }
+
+    .vehicle-card:hover{
+        transform: translateY(-6px);
+    }
+
+    /* =========================
+        IMAGE
+    ========================== */
+
+    .vehicle-image{
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+    }
+
+    /* =========================
+        CONTENT
+    ========================== */
+
+    .vehicle-content{
+        padding: 24px;
+    }
+
+    .vehicle-top{
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .vehicle-name{
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 5px;
+    }
+
+    .vehicle-brand{
+        color: #64748b;
+        font-size: 0.95rem;
+    }
+
+    .price-box{
+        text-align: right;
+    }
+
+    .price{
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #ff6b00;
+    }
+
+    .price-text{
+        font-size: 0.85rem;
+        color: #94a3b8;
+    }
+
+    /* =========================
+        DETAILS
+    ========================== */
+
+    .vehicle-details{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .detail-box{
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 14px;
+        text-align: center;
+    }
+
+    .detail-box i{
+        color: #ff6b00;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    .detail-box h6{
+        font-size: 0.8rem;
+        color: #64748b;
+        margin-bottom: 5px;
+    }
+
+    .detail-box p{
+        margin: 0;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    /* =========================
+        STATUS
+    ========================== */
+
+    .status-badge{
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 22px;
+    }
+
+    .available{
+        background: rgba(34,197,94,0.12);
+        color: #16a34a;
+    }
+
+    .not-available{
+        background: rgba(239,68,68,0.12);
+        color: #dc2626;
+    }
+
+    /* =========================
+        ACTION BUTTONS
+    ========================== */
+
+    .action-buttons{
+        display: flex;
+        gap: 12px;
+    }
+
+    .edit-btn{
+        flex: 1;
+        height: 50px;
+        border-radius: 14px;
+        background: rgba(59,130,246,0.12);
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+    }
+
+    .edit-btn:hover{
+        background: #2563eb;
+        color: white;
+    }
+
+    .delete-btn{
+        flex: 1;
+        height: 50px;
+        border-radius: 14px;
+        background: rgba(239,68,68,0.12);
+        color: #dc2626;
+        text-decoration: none;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+    }
+
+    .delete-btn:hover{
+        background: #dc2626;
+        color: white;
+    }
+
+    /* =========================
+        EMPTY
+    ========================== */
+
+    .empty-box{
+        background: white;
+        border-radius: 26px;
+        padding: 70px 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .empty-box i{
+        font-size: 5rem;
+        color: #cbd5e1;
+        margin-bottom: 20px;
+    }
+
+    .empty-box h3{
+        font-weight: 800;
+        color: #334155;
+        margin-bottom: 10px;
+    }
+
+    .empty-box p{
+        color: #64748b;
+        margin-bottom: 30px;
+    }
+
+    /* =========================
+        RESPONSIVE
+    ========================== */
+
+    @media(max-width:768px){
+
+        .vehicle-details{
+            grid-template-columns: 1fr 1fr;
+        }
+
+    }
+
+    @media(max-width:576px){
+
+        .vehicle-content{
+            padding: 18px;
+        }
+
+        .vehicle-top{
+            flex-direction: column;
+        }
+
+        .price-box{
+            text-align: left;
+        }
+
+        .action-buttons{
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================
+    HEADER
+========================= -->
+
+<div class="vehicle-header">
+
+    <div>
+
+        <h2>
+            My Vehicles
+        </h2>
+
+        <p>
+            Manage your listed rental vehicles.
+        </p>
+
+    </div>
+
+    <a 
+        href="{% url 'add_vehicle' %}"
+        class="add-btn"
+    >
+
+        <i class="bi bi-plus-circle-fill me-2"></i>
+
+        Add Vehicle
+
+    </a>
+
+</div>
+
+
+<!-- =========================
+    VEHICLES
+========================= -->
+
+<div class="row g-4">
+
+    {% for vehicle in my_vehicles %}
+
+    <div class="col-lg-6">
+
+        <div class="vehicle-card">
+
+            <!-- Image -->
+
+            <img 
+                src="{{ vehicle.image.url }}"
+                alt="{{ vehicle.name }}"
+                class="vehicle-image"
+            >
+
+            <!-- Content -->
+
+            <div class="vehicle-content">
+
+                <!-- Top -->
+
+                <div class="vehicle-top">
+
+                    <div>
+
+                        <h3 class="vehicle-name">
+
+                            {{ vehicle.name }}
+
+                        </h3>
+
+                        <p class="vehicle-brand">
+
+                            {{ vehicle.brand }} • {{ vehicle.model }}
+
+                        </p>
+
+                    </div>
+
+                    <div class="price-box">
+
+                        <div class="price">
+
+                            ₹{{ vehicle.price_per_day }}
+
+                        </div>
+
+                        <div class="price-text">
+
+                            Per Day
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Status -->
+
+                {% if vehicle.availability %}
+
+                <div class="status-badge available">
+
+                    Available
+
+                </div>
+
+                {% else %}
+
+                <div class="status-badge not-available">
+
+                    Not Available
+
+                </div>
+
+                {% endif %}
+
+                <!-- Details -->
+
+                <div class="vehicle-details">
+
+                    <div class="detail-box">
+
+                        <i class="bi bi-fuel-pump-fill"></i>
+
+                        <h6>
+                            Fuel
+                        </h6>
+
+                        <p>
+                            {{ vehicle.fuel_type }}
+                        </p>
+
+                    </div>
+
+                    <div class="detail-box">
+
+                        <i class="bi bi-people-fill"></i>
+
+                        <h6>
+                            Seats
+                        </h6>
+
+                        <p>
+                            {{ vehicle.seat_capacity }}
+                        </p>
+
+                    </div>
+
+                    <div class="detail-box">
+
+                        <i class="bi bi-speedometer2"></i>
+
+                        <h6>
+                            Mileage
+                        </h6>
+
+                        <p>
+                            {{ vehicle.mileage }}
+                        </p>
+
+                    </div>
+
+                    <div class="detail-box">
+
+                        <i class="bi bi-tag-fill"></i>
+
+                        <h6>
+                            Category
+                        </h6>
+
+                        <p>
+                            {{ vehicle.category }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div class="action-buttons">
+
+                    <a 
+                        href="#"
+                        class="edit-btn"
+                    >
+
+                        <i class="bi bi-pencil-square me-2"></i>
+
+                        Edit
+
+                    </a>
+
+                    <a 
+                        href="#"
+                        class="delete-btn"
+                    >
+
+                        <i class="bi bi-trash-fill me-2"></i>
+
+                        Delete
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">
+
+        <div class="empty-box">
+
+            <i class="bi bi-car-front-fill"></i>
+
+            <h3>
+                No Vehicles Added
+            </h3>
+
+            <p>
+                You have not added any vehicles yet.
+            </p>
+
+            <a 
+                href="{% url 'add_vehicle' %}"
+                class="add-btn"
+            >
+
+                Add Your First Vehicle
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
