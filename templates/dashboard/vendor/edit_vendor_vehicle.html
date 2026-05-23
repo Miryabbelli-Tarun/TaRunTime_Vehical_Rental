@@ -1,0 +1,528 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}
+Edit Vehicle | TaRunTime
+{% endblock %}
+
+{% block dashboard_content %}
+
+<style>
+
+    .edit-header{
+        margin-bottom: 35px;
+    }
+
+    .edit-header h2{
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .edit-header p{
+        color: #64748b;
+        margin-top: 10px;
+    }
+
+    /* =========================
+        FORM CARD
+    ========================== */
+
+    .edit-card{
+        background: white;
+        border-radius: 28px;
+        padding: 35px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    /* =========================
+        IMAGE PREVIEW
+    ========================== */
+
+    .preview-image{
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 22px;
+        margin-bottom: 30px;
+    }
+
+    /* =========================
+        LABELS
+    ========================== */
+
+    .form-label{
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 10px;
+    }
+
+    /* =========================
+        INPUTS
+    ========================== */
+
+    .form-control,
+    .form-select{
+        height: 56px;
+        border-radius: 16px;
+        border: 1px solid #cbd5e1;
+        padding: 12px 18px;
+        margin-bottom: 22px;
+    }
+
+    textarea.form-control{
+        height: 150px;
+        resize: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus{
+        border-color: #ff6b00;
+        box-shadow: 0 0 0 0.2rem rgba(255,107,0,0.15);
+    }
+
+    /* =========================
+        IMAGE INPUT
+    ========================== */
+
+    .image-upload{
+        padding: 12px;
+        background: #f8fafc;
+        border-radius: 18px;
+        border: 2px dashed #cbd5e1;
+    }
+
+    /* =========================
+        BUTTON
+    ========================== */
+
+    .submit-btn{
+        width: 100%;
+        height: 60px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8c42
+        );
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 10px;
+        transition: 0.3s;
+        box-shadow: 0 12px 25px rgba(255,107,0,0.25);
+    }
+
+    .submit-btn:hover{
+        transform: translateY(-3px);
+    }
+
+    /* =========================
+        RESPONSIVE
+    ========================== */
+
+    @media(max-width:768px){
+
+        .edit-card{
+            padding: 22px;
+        }
+
+        .preview-image{
+            height: 220px;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================
+    HEADER
+========================= -->
+
+<div class="edit-header">
+
+    <h2>
+        Edit Vehicle
+    </h2>
+
+    <p>
+        Update your vehicle information and availability.
+    </p>
+
+</div>
+
+
+<!-- =========================
+    FORM CARD
+========================= -->
+
+<div class="edit-card">
+
+    <!-- Current Image -->
+
+    <img 
+        src="{{ vehicle.image.url }}"
+        alt="{{ vehicle.name }}"
+        class="preview-image"
+    >
+
+    <!-- Form -->
+
+    <form 
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        {% csrf_token %}
+
+        <div class="row">
+
+            <!-- Name -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Vehicle Name
+
+                </label>
+
+                <input 
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    value="{{ vehicle.name }}"
+                >
+
+            </div>
+
+            <!-- Number -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Vehicle Number
+
+                </label>
+
+                <input 
+                    type="text"
+                    name="vehicle_number"
+                    class="form-control"
+                    value="{{ vehicle.vehicle_number }}"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <!-- Brand -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Brand
+
+                </label>
+
+                <input 
+                    type="text"
+                    name="brand"
+                    class="form-control"
+                    value="{{ vehicle.brand }}"
+                >
+
+            </div>
+
+            <!-- Model -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Model
+
+                </label>
+
+                <input 
+                    type="text"
+                    name="model"
+                    class="form-control"
+                    value="{{ vehicle.model }}"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <!-- Year -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Year
+
+                </label>
+
+                <input 
+                    type="number"
+                    name="year"
+                    class="form-control"
+                    value="{{ vehicle.year }}"
+                >
+
+            </div>
+
+            <!-- Fuel -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Fuel Type
+
+                </label>
+
+                <select 
+                    name="fuel_type"
+                    class="form-select"
+                >
+
+                    <option 
+                        value="petrol"
+                        {% if vehicle.fuel_type == 'petrol' %}
+                        selected
+                        {% endif %}
+                    >
+                        Petrol
+                    </option>
+
+                    <option 
+                        value="diesel"
+                        {% if vehicle.fuel_type == 'diesel' %}
+                        selected
+                        {% endif %}
+                    >
+                        Diesel
+                    </option>
+
+                    <option 
+                        value="electric"
+                        {% if vehicle.fuel_type == 'electric' %}
+                        selected
+                        {% endif %}
+                    >
+                        Electric
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- Seats -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Seat Capacity
+
+                </label>
+
+                <input 
+                    type="number"
+                    name="seat_capacity"
+                    class="form-control"
+                    value="{{ vehicle.seat_capacity }}"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <!-- Mileage -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Mileage
+
+                </label>
+
+                <input 
+                    type="number"
+                    name="mileage"
+                    class="form-control"
+                    value="{{ vehicle.mileage }}"
+                >
+
+            </div>
+
+            <!-- Price -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Price Per Day
+
+                </label>
+
+                <input 
+                    type="number"
+                    name="price_per_day"
+                    class="form-control"
+                    value="{{ vehicle.price_per_day }}"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Category -->
+
+        <label class="form-label">
+
+            Category
+
+        </label>
+
+        <select 
+            name="category"
+            class="form-select"
+        >
+
+            {% for category in categories %}
+
+            <option 
+                value="{{ category.id }}"
+                {% if vehicle.category.id == category.id %}
+                selected
+                {% endif %}
+            >
+
+                {{ category.name }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <!-- Location -->
+
+        <label class="form-label">
+
+            Location
+
+        </label>
+
+        <input 
+            type="text"
+            name="location"
+            class="form-control"
+            value="{{ vehicle.location }}"
+        >
+
+
+        <!-- Description -->
+
+        <label class="form-label">
+
+            Description
+
+        </label>
+
+        <textarea 
+            name="description"
+            class="form-control"
+        >{{ vehicle.description }}</textarea>
+
+
+        <!-- Availability -->
+
+        <label class="form-label">
+
+            Availability
+
+        </label>
+
+        <select 
+            name="availability"
+            class="form-select"
+        >
+
+            <option 
+                value="True"
+                {% if vehicle.availability %}
+                selected
+                {% endif %}
+            >
+                Available
+            </option>
+
+            <option 
+                value="False"
+                {% if not vehicle.availability %}
+                selected
+                {% endif %}
+            >
+                Not Available
+            </option>
+
+        </select>
+
+
+        <!-- Image -->
+
+        <label class="form-label">
+
+            Change Vehicle Image
+
+        </label>
+
+        <div class="image-upload">
+
+            <input 
+                type="file"
+                name="image"
+                class="form-control"
+            >
+
+        </div>
+
+
+        <!-- Submit -->
+
+        <button 
+            type="submit"
+            class="submit-btn"
+        >
+
+            <i class="bi bi-check-circle-fill me-2"></i>
+
+            Update Vehicle
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

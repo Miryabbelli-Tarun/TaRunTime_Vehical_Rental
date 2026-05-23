@@ -176,3 +176,37 @@ def my_vehicles_view(request):
         "my_vehicles":my_vehicles
     }
     return render(request,'dashboard/vendor/my_vehicles.html',context)
+
+def edit_vendor_vehicle_view(request,slug):
+    vehicle=get_object_or_404(Vehicle,slug=slug)
+    if request.user!=vehicle.vendor:
+        messages.warning(request,"Access denied")
+        return redirect('profile')
+    categories=Category.objects.all()
+    
+    if request.method=="POST":
+        vehicle.name=request.POST.get('name')
+        vehicle.category=get_object_or_404(Category,id=request.POST.get('category'))
+        vehicle.vehicle_number=request.POST.get('vehicle_number')
+        vehicle.model=request.POST.get('model')
+        vehicle.brand=request.POST.get('brand')
+        vehicle.year=request.POST.get('year')
+        vehicle.fuel_type=request.POST.get('fuel_type')
+        vehicle.seat_capacity=request.POST.get('seat_capacity')
+        vehicle.mileage=request.POST.get('mileage')
+        vehicle.price_per_day=request.POST.get('price_per_day')
+        vehicle.location=request.POST.get('location')
+        vehicle.description=request.POST.get('description')     
+        vehicle.availability=(request.POST.get('availability')=="True")
+        if request.FILES.get('image'):
+            vehicle.image=request.FILES.get('image')
+        vehicle.save()
+        messages.success(request,"vehicle updated succesfully")
+        return redirect('my_vehicles')
+
+    context={
+        'vehicle':vehicle,
+        "categories":categories,
+    }
+
+    return render(request,'dashboard/vendor/edit_vendor_vehicle.html',context)
