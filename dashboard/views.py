@@ -210,3 +210,15 @@ def edit_vendor_vehicle_view(request,slug):
     }
 
     return render(request,'dashboard/vendor/edit_vendor_vehicle.html',context)
+
+
+def delete_vendor_vehicle_view(request,slug):
+    vehicle=get_object_or_404(Vehicle,slug=slug)
+    if request.user!=vehicle.vendor:
+        messages.warning(request,"access denied")
+        return redirect('profile')
+    if request.method=="POST":
+        vehicle.delete()  
+        messages.success(request,"vehicle delete succesfully")
+        return redirect('my_vehicles')
+    return redirect('my_vehicles')
