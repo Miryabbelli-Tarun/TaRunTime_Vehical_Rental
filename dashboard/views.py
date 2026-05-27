@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
-from dashboard.models import Cart, VendorRequest
+from dashboard.models import Cart, VendorRequest, Wishlist
 from home.models import Category, Vehicle
 from datetime import datetime
 
@@ -305,3 +305,38 @@ def remove_cart_item_view(request,id):
     item.delete()
     messages.success(request,'vehicle removed from cart')
     return redirect('cart')
+
+#========================
+#wish list functionalitys
+#========================
+
+
+
+def wishlist_view(request):
+    wishlist_items=Wishlist.objects.filter(user=request.user).select_related('vehicle')
+    context={
+        "wishlist_items":wishlist_items
+    }
+    return render(request,'dashboard/wishlist.html',context)
+
+def toggle_wishlist_view(request,slug):
+    vehicle=get_object_or_404(Vehicle,slug=slug)
+    wishlist_item=Wishlist.objects.filter(user=request.user,vehicle=vehicle).first()
+    if wishlist_item:
+        wishlist_item.delete()
+        messages.warning(request," removed from wishlist")
+        
+    else:
+        Wishlist.objects.create(
+            user=request.user,
+            vehicle=vehicle
+        )
+        messages.success(request,"vehicle added to wishlist")
+    return redirect('vehicle_details',vehicle_slug=vehicle.slug)
+
+def remove_from_wishlist_view(request,id):
+    item=get_object_or_404(Wishlist,id=id,user=request.user)
+    item.delete()
+    messages.success(request,"vehicle removed from wishlist")
+    return redirect('wishlist')
+    

@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
+from dashboard.models import Wishlist
 from home.models import Banner, Category, Vehicle
 
 # Create your views here.
@@ -26,8 +27,13 @@ def category_list_view(request):
 def vehicle_details_view(request,vehicle_slug):
     vehicle=get_object_or_404(Vehicle,slug=vehicle_slug)
     # print(vehicle)
+    is_wishlisted =False
+    if request.user.is_authenticated:
+        is_wishlisted =Wishlist.objects.filter(user=request.user,vehicle=vehicle).exists()
+    print(is_wishlisted)
     context={
         'vehicle':vehicle,
+        'is_wishlisted':is_wishlisted 
     }
     return render(request,'vehicle_details.html',context)
 

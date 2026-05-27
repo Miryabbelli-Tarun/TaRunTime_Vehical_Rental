@@ -38,3 +38,15 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"{self.user.email}-{self.vehicle.name}"
+    
+
+class Wishlist(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='wishlist')
+    vehicle=models.ForeignKey(Vehicle,on_delete=models.CASCADE,related_name='wishlist')
+    created_at=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together=['user','vehicle']
+
+    def __str__(self):
+        return f"{self.user.email}-{self.vehicle.name}"

@@ -456,7 +456,7 @@
                     </a>
 
                     <!-- Wishlist Link Button -->
-                    <a href="#" class="icon-btn" title="Wishlist">
+                    <a href="{% url 'wishlist' %}" class="icon-btn" title="Wishlist">
                         <i class="bi bi-heart"></i>
                     </a>
 
@@ -510,7 +510,7 @@
                             <li><div class="dropdown-header-role text-warning bg-warning-subtle">Customer Menu</div></li>
                             <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-bounding-box"></i> My Profile</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-journal-check"></i> My Bookings</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-heart-fill"></i> Wishlist</a></li>
+                            <li><a class="dropdown-item" href="{% url 'wishlist' %}"><i class="bi bi-heart-fill"></i> Wishlist</a></li>
                             {% if not request.user.is_vendor and not request.user.wants_vendor %}
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-shop"></i> Become Vendor</a></li>
                             {% endif %}

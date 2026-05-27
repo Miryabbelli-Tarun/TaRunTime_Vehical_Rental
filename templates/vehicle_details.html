@@ -4,6 +4,24 @@
 {% block title %}{{ vehicle.brand }} {{ vehicle.name }} | TaRunTime{% endblock %}
 
 {% block content %}
+
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+
+    {{ message }}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
 <style>
     .detail-section {
         padding: 40px 0 80px 0;
@@ -246,6 +264,44 @@
 
     }
 
+    .btn-like-heart {
+
+        width: 55px;
+
+        height: 55px;
+
+        border-radius: 50%;
+
+        border: none;
+
+        background: white;
+
+        color: #94a3b8;
+
+        font-size: 1.2rem;
+
+        transition: 0.3s;
+
+    }
+
+    /* liked state */
+
+    .btn-like-heart.liked {
+
+        background: #ef4444;
+
+        color: white;
+
+    }
+
+    /* hover */
+
+    .btn-like-heart:hover {
+
+        transform: scale(1.08);
+
+    }
+
     @keyframes heartBeat {
         0% {
             transform: scale(1);
@@ -313,10 +369,15 @@
                     </div>
 
                     <!-- Like Trigger Switch Node Component -->
-                    <button type="button" class="btn-like-heart shadow-sm" id="likeToggleBtn"
-                        onclick="this.classList.toggle('liked')">
-                        <i class="bi bi-heart-fill"></i>
-                    </button>
+                    <a href="{% url 'toggle_wishlist' vehicle.slug %}">
+
+                        <button type="button" class="btn-like-heart shadow-sm {% if is_wishlisted %}liked{% endif %}">
+
+                            <i class="bi bi-heart-fill"></i>
+
+                        </button>
+
+                    </a>
                 </div>
 
                 <hr class="text-secondary opacity-20 my-4">
