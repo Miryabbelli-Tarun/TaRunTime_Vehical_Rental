@@ -102,13 +102,13 @@
         border: none;
         padding: 14px;
         border-radius: 50px;
-        box-shadow: 0 8px 20px rgba(255,107,0,0.3);
+        box-shadow: 0 8px 20px rgba(255, 107, 0, 0.3);
         transition: all 0.3s ease;
     }
 
     .btn-booking-main:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 25px rgba(255,107,0,0.45);
+        box-shadow: 0 12px 25px rgba(255, 107, 0, 0.45);
         color: white;
     }
 
@@ -156,37 +156,136 @@
         animation: heartBeat 0.3s ease-in-out;
     }
 
+
+    /* add to cart stylings */
+    .booking-card {
+
+        background: white;
+
+        padding: 28px;
+
+        border-radius: 24px;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+        margin-top: 30px;
+
+    }
+
+    .booking-title {
+
+        font-size: 1.5rem;
+
+        font-weight: 800;
+
+        margin-bottom: 25px;
+
+        color: #0f172a;
+
+    }
+
+    .booking-label {
+
+        font-weight: 700;
+
+        margin-bottom: 10px;
+
+        color: #334155;
+
+    }
+
+    .booking-input {
+
+        height: 55px;
+
+        border-radius: 14px;
+
+        border: 1px solid #cbd5e1;
+
+    }
+
+    .booking-input:focus {
+
+        border-color: #ff6b00;
+
+        box-shadow: 0 0 0 0.2rem rgba(255, 107, 0, 0.15);
+
+    }
+
+    .booking-btn {
+
+        width: 100%;
+
+        height: 58px;
+
+        border: none;
+
+        border-radius: 50px;
+
+        margin-top: 30px;
+
+        background: linear-gradient(135deg,
+                #ff6b00,
+                #ff8c42);
+
+        color: white;
+
+        font-size: 1rem;
+
+        font-weight: 700;
+
+        transition: 0.3s;
+
+        box-shadow: 0 12px 25px rgba(255, 107, 0, 0.25);
+
+    }
+
+    .booking-btn:hover {
+
+        transform: translateY(-3px);
+
+    }
+
     @keyframes heartBeat {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.3); }
-        100% { transform: scale(1); }
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.3);
+        }
+
+        100% {
+            transform: scale(1);
+        }
     }
 </style>
 
 <div class="detail-section">
     <div class="container">
-        
+
         <!-- Breadcrumb Navigation History Node -->
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Home</a></li>
-                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">{{ vehicle.category.name }}</a></li>
+                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">{{ vehicle.category.name
+                        }}</a></li>
                 <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">{{ vehicle.name }}</li>
             </ol>
         </nav>
 
         <div class="row g-5">
-            
+
             <!-- LEFT SIDE: Sticky Visual Component Presentation Module -->
             <div class="col-12 col-lg-6">
                 <div class="gallery-container">
                     <div class="main-image-box">
                         {% if vehicle.image %}
-                            <img src="{{ vehicle.image.url }}" alt="{{ vehicle.name }}" id="viewportImage">
+                        <img src="{{ vehicle.image.url }}" alt="{{ vehicle.name }}" id="viewportImage">
                         {% else %}
-                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary-subtle">
-                                <i class="bi bi-car-front display-1 text-muted"></i>
-                            </div>
+                        <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary-subtle">
+                            <i class="bi bi-car-front display-1 text-muted"></i>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
@@ -194,11 +293,12 @@
 
             <!-- RIGHT SIDE: Information Specification Matrix & Booking Panel -->
             <div class="col-12 col-lg-6">
-                
+
                 <!-- Category and Vendor Badges Layer -->
                 <div class="badge-bar d-flex align-items-center gap-2 mb-3">
                     <span class="brand-accent-tag">{{ vehicle.brand|default:"Premium" }}</span>
-                    <span class="category-accent-tag"><i class="bi bi-tag-fill me-1"></i>{{ vehicle.category.name }}</span>
+                    <span class="category-accent-tag"><i class="bi bi-tag-fill me-1"></i>{{ vehicle.category.name
+                        }}</span>
                 </div>
 
                 <!-- Primary Core Asset Title Header -->
@@ -206,14 +306,15 @@
                     <div>
                         <h1 class="fw-bold text-dark display-6 mb-1">{{ vehicle.name }}</h1>
                         <p class="text-muted d-flex align-items-center gap-2">
-                            <i class="bi bi-geo-alt-fill text-danger"></i> {{ vehicle.location }} 
-                            <span class="text-slate-300">|</span> 
+                            <i class="bi bi-geo-alt-fill text-danger"></i> {{ vehicle.location }}
+                            <span class="text-slate-300">|</span>
                             <i class="bi bi-shield-check text-success"></i> Verified Fleet
                         </p>
                     </div>
-                    
+
                     <!-- Like Trigger Switch Node Component -->
-                    <button type="button" class="btn-like-heart shadow-sm" id="likeToggleBtn" onclick="this.classList.toggle('liked')">
+                    <button type="button" class="btn-like-heart shadow-sm" id="likeToggleBtn"
+                        onclick="this.classList.toggle('liked')">
                         <i class="bi bi-heart-fill"></i>
                     </button>
                 </div>
@@ -271,7 +372,9 @@
                 <div class="mb-4">
                     <h5 class="fw-bold text-dark mb-2">Description</h5>
                     <p class="text-muted lh-lg">
-                        {{ vehicle.description|default:"No description provided for this vehicle. Please connect directly with the assigned vehicle host vendor via customer support structures if distinct component item verification specifications are required." }}
+                        {{ vehicle.description|default:"No description provided for this vehicle. Please connect
+                        directly with the assigned vehicle host vendor via customer support structures if distinct
+                        component item verification specifications are required." }}
                     </p>
                 </div>
 
@@ -287,13 +390,15 @@
                         </div>
                         <div>
                             {% if vehicle.availability %}
-                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold small">
-                                    <i class="bi bi-check-circle-fill me-1"></i> Available Now
-                                </span>
+                            <span
+                                class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold small">
+                                <i class="bi bi-check-circle-fill me-1"></i> Available Now
+                            </span>
                             {% else %}
-                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill fw-bold small">
-                                    <i class="bi bi-exclamation-triangle-fill me-1"></i> Currently Booked
-                                </span>
+                            <span
+                                class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill fw-bold small">
+                                <i class="bi bi-exclamation-triangle-fill me-1"></i> Currently Booked
+                            </span>
                             {% endif %}
                         </div>
                     </div>
@@ -301,30 +406,79 @@
                     <!-- Functional Form Routing Controls Nodes Stack Layout -->
                     <div class="d-flex flex-column gap-3">
                         {% if vehicle.availability %}
-                            <!-- Primary Action Node: Instant Checkout -->
-                            <a href="#" class="btn btn-booking-main d-flex align-items-center justify-content-center gap-2 shadow">
-                                <i class="bi bi-lightning-charge-fill"></i> Book Now & Secure Ride
-                            </a>
-                            
-                            <!-- Secondary Action Node: Pre-cart Processing Layout -->
-                            <a href="#" class="btn btn-cart-secondary d-flex align-items-center justify-content-center gap-2">
-                                <i class="bi bi-cart-plus-fill"></i> Add to Cart Directory
-                            </a>
+                        <!-- Primary Action Node: Instant Checkout -->
+                        <a href="#"
+                            class="btn btn-booking-main d-flex align-items-center justify-content-center gap-2 shadow">
+                            <i class="bi bi-lightning-charge-fill"></i> Book Now & Secure Ride
+                        </a>
+
+                        <!-- Secondary Action Node: Pre-cart Processing Layout -->
+                        <!-- =========================
+                               BOOKING FORM
+                        ========================= -->
+
+                        <div class="booking-card">
+
+                            <h3 class="booking-title">
+
+                                Book This Vehicle
+
+                            </h3>
+
+                            <form action="{% url 'add_to_cart' vehicle.slug %}" method="POST">
+
+                                {% csrf_token %}
+
+                                <!-- Start Date -->
+
+                                <label class="booking-label">
+
+                                    Pickup Date
+
+                                </label>
+
+                                <input type="date" name="start_date" class="form-control booking-input" required>
+
+                                <!-- End Date -->
+
+                                <label class="booking-label mt-3">
+
+                                    Return Date
+
+                                </label>
+
+                                <input type="date" name="end_date" class="form-control booking-input" required>
+
+                                <!-- Button -->
+
+                                <button type="submit" class="booking-btn">
+
+                                    <i class="bi bi-cart-plus-fill me-2"></i>
+
+                                    Add To Cart
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
                         {% else %}
-                            <button type="button" class="btn btn-secondary py-3 rounded-pill fw-bold border-0" disabled>
-                                <i class="bi bi-calendar-x me-2"></i> Un-Available For Booking
-                            </button>
+                        <button type="button" class="btn btn-secondary py-3 rounded-pill fw-bold border-0" disabled>
+                            <i class="bi bi-calendar-x me-2"></i> Un-Available For Booking
+                        </button>
                         {% endif %}
                     </div>
-                    
+
                     <p class="text-center text-muted small mt-3 mb-0">
-                        <i class="bi bi-shield-lock me-1"></i> Secure payment processing. Cancel anytime before processing confirmation.
+                        <i class="bi bi-shield-lock me-1"></i> Secure payment processing. Cancel anytime before
+                        processing confirmation.
                     </p>
                 </div>
 
             </div>
         </div>
-        
+
     </div>
 </div>
 {% endblock %}

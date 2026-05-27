@@ -3,8 +3,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
-from dashboard.models import VendorRequest
+from dashboard.models import Cart, VendorRequest
 from home.models import Category, Vehicle
+from datetime import datetime
 
 User=get_user_model()
 # Create your views here.
@@ -222,3 +223,85 @@ def delete_vendor_vehicle_view(request,slug):
         messages.success(request,"vehicle delete succesfully")
         return redirect('my_vehicles')
     return redirect('my_vehicles')
+
+
+
+
+#add to cart view
+def add_to_cart_view(request,slug):
+    user=request.user
+    vehicle=get_object_or_404(Vehicle,slug=slug)
+    if not user:
+        messages.warning(request,"access denied")
+        return redirect('profile')
+    if request.method=='POST':
+        start_date=request.POST.get('start_date')
+        end_date=request.POST.get('end_date')
+        print(start_date,end_date,sep="             ")
+        #calculate dates and amount
+        start=datetime.strptime(start_date,"%Y-%m-%d").date()
+        end=datetime.strptime(end_date,"%Y-%m-%d").date()
+        print(start,end,sep="          ")
+        total_days=(end-start).days
+        if total_days<=0:
+            messages.warning(request,"invalid dates")
+            return redirect('vehicle_details',slug=vehicle.slug)
+        amount=(total_days*vehicle.price_per_day)
+
+
+        # check duplicate cart item
+
+        existing_cart_item = Cart.objects.filter(
+
+            user=request.user,
+
+            vehicle=vehicle,
+
+            start_date=start_date,
+
+            end_date=end_date
+
+        ).exists()
+
+
+        if existing_cart_item:
+
+            messages.warning(
+                request,
+                'Vehicle already added to cart'
+            )
+
+            return redirect('cart')
+
+
+        Cart.objects.create(
+            user=user,
+            vehicle=vehicle,
+            start_date=start_date,
+            end_date=end_date,
+            total_days=total_days,
+            amount=amount
+        )
+        messages.success(request,"vehicle added to cart succesfully")
+        return redirect('cart')
+
+    
+
+    return redirect('vehicle_details',slug=vehicle.slug)
+    
+
+
+def cart_view(request):
+    cart_items=Cart.objects.filter(user=request.user).select_related('vehicle')
+    total_amount=sum(item.amount for item in cart_items)
+    context={
+        'cart_items':cart_items,
+        "total_amount":total_amount
+    }
+    return render(request,"dashboard/cart.html",context)
+
+def remove_cart_item_view(request,id):
+    item=get_object_or_404(Cart,id=id,user=request.user)
+    item.delete()
+    messages.success(request,'vehicle removed from cart')
+    return redirect('cart')

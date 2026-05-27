@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from dashboard.models import VendorRequest
+from dashboard.models import Cart, VendorRequest
 
 # Register your models here.
 class VendorRequestAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class VendorRequestAdmin(admin.ModelAdmin):
     list_filter=['status']
     search_fields=['full_name']
 admin.site.register(VendorRequest,VendorRequestAdmin)
+admin.site.register(Cart)

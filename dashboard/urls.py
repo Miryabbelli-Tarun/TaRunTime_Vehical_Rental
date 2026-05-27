@@ -12,4 +12,9 @@ urlpatterns = [
     path('my_vehicles/',views.my_vehicles_view,name='my_vehicles'),
     path('edit_vendor_vehicle/<slug:slug>/',views.edit_vendor_vehicle_view,name="edit_vendor_vehicle"),
     path('delete_vendor_vehicle/<slug:slug>/',views.delete_vendor_vehicle_view,name='delete_vendor_vehicle'),
+
+    #cart functionality
+    path('cart/',views.cart_view,name='cart'),
+    path('add_to_cart/<slug:slug>/',views.add_to_cart_view,name="add_to_cart"),
+    path('remove_cart_item/<int:id>/',views.remove_cart_item_view,name='remove_cart_item'),
 ]
