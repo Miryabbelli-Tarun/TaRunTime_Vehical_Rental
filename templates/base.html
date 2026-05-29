@@ -500,7 +500,7 @@
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-grid-1x2"></i> Vendor Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{% url 'add_vehicle' %}"><i class="bi bi-plus-circle"></i> Add Vehicle</a></li>
                                 <li><a class="dropdown-item" href="{% url 'my_vehicles' %}"><i class="bi bi-car-front-fill"></i> My Vehicles</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-calendar-event"></i> Booking Requests</a></li>
+                                <li><a class="dropdown-item" href="{% url 'vendor_booking_requests' %}"><i class="bi bi-calendar-event"></i> Booking Requests</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-wallet2"></i> Earnings</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-sliders"></i> Analytics</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -509,7 +509,7 @@
                             <!-- GENERAL CUSTOMER ACCOUNT CONSOLE -->
                             <li><div class="dropdown-header-role text-warning bg-warning-subtle">Customer Menu</div></li>
                             <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-bounding-box"></i> My Profile</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-journal-check"></i> My Bookings</a></li>
+                            <li><a class="dropdown-item" href="{% url 'my_bookings' %}"><i class="bi bi-journal-check"></i> My Bookings</a></li>
                             <li><a class="dropdown-item" href="{% url 'wishlist' %}"><i class="bi bi-heart-fill"></i> Wishlist</a></li>
                             {% if not request.user.is_vendor and not request.user.wants_vendor %}
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-shop"></i> Become Vendor</a></li>

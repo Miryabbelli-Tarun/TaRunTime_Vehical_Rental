@@ -9,44 +9,39 @@ My Cart | TaRunTime
 
 {% if messages %}
 
-    {% for message in messages %}
+{% for message in messages %}
 
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show">
 
-            {{ message }}
+    {{ message }}
 
-            <button 
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-            ></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 
-        </div>
+</div>
 
-    {% endfor %}
+{% endfor %}
 
 {% endif %}
 
 
 <style>
-
-    .cart-section{
+    .cart-section {
         padding: 80px 0;
         background: #f8fafc;
         min-height: 100vh;
     }
 
-    .cart-header{
+    .cart-header {
         margin-bottom: 40px;
     }
 
-    .cart-header h2{
+    .cart-header h2 {
         font-size: 2.5rem;
         font-weight: 800;
         color: #0f172a;
     }
 
-    .cart-header p{
+    .cart-header p {
         color: #64748b;
         margin-top: 10px;
     }
@@ -55,7 +50,7 @@ My Cart | TaRunTime
         CART CARD
     ========================== */
 
-    .cart-card{
+    .cart-card {
 
         background: white;
 
@@ -63,7 +58,7 @@ My Cart | TaRunTime
 
         overflow: hidden;
 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 
         margin-bottom: 30px;
 
@@ -71,13 +66,13 @@ My Cart | TaRunTime
 
     }
 
-    .cart-card:hover{
+    .cart-card:hover {
 
         transform: translateY(-5px);
 
     }
 
-    .cart-image{
+    .cart-image {
 
         width: 100%;
 
@@ -87,13 +82,13 @@ My Cart | TaRunTime
 
     }
 
-    .cart-content{
+    .cart-content {
 
         padding: 28px;
 
     }
 
-    .vehicle-name{
+    .vehicle-name {
 
         font-size: 1.7rem;
 
@@ -105,7 +100,7 @@ My Cart | TaRunTime
 
     }
 
-    .vehicle-category{
+    .vehicle-category {
 
         color: #64748b;
 
@@ -117,11 +112,11 @@ My Cart | TaRunTime
         DETAILS
     ========================== */
 
-    .details-grid{
+    .details-grid {
 
         display: grid;
 
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
 
         gap: 18px;
 
@@ -129,7 +124,7 @@ My Cart | TaRunTime
 
     }
 
-    .detail-box{
+    .detail-box {
 
         background: #f8fafc;
 
@@ -139,7 +134,7 @@ My Cart | TaRunTime
 
     }
 
-    .detail-box h6{
+    .detail-box h6 {
 
         font-size: 14px;
 
@@ -149,7 +144,7 @@ My Cart | TaRunTime
 
     }
 
-    .detail-box p{
+    .detail-box p {
 
         font-weight: 700;
 
@@ -163,13 +158,11 @@ My Cart | TaRunTime
         TOTAL
     ========================== */
 
-    .price-box{
+    .price-box {
 
-        background: linear-gradient(
-            135deg,
-            #fff7ed,
-            #ffffff
-        );
+        background: linear-gradient(135deg,
+                #fff7ed,
+                #ffffff);
 
         border-radius: 22px;
 
@@ -181,7 +174,7 @@ My Cart | TaRunTime
 
     }
 
-    .price-box h3{
+    .price-box h3 {
 
         color: #ff6b00;
 
@@ -193,7 +186,7 @@ My Cart | TaRunTime
 
     }
 
-    .price-box p{
+    .price-box p {
 
         margin: 0;
 
@@ -205,37 +198,43 @@ My Cart | TaRunTime
         BUTTONS
     ========================== */
 
-    .cart-actions{
+    .cart-actions {
 
         display: flex;
 
         gap: 15px;
 
-        flex-wrap: wrap;
+        align-items: stretch;
 
     }
 
-    .remove-btn{
+    .remove-form {
 
         flex: 1;
 
-        height: 55px;
+    }
 
-        border-radius: 50px;
+    .remove-btn {
+
+        width: 100%;
+
+        min-height: 60px;
+
+        border-radius: 18px;
 
         border: none;
 
-        background: rgba(239,68,68,0.12);
+        background: rgba(239, 68, 68, 0.12);
 
         color: #dc2626;
 
         font-weight: 700;
 
-        transition: 0.3s;
+        transition: all 0.3s ease;
 
     }
 
-    .remove-btn:hover{
+    .remove-btn:hover {
 
         background: #dc2626;
 
@@ -243,43 +242,64 @@ My Cart | TaRunTime
 
     }
 
-    .checkout-btn{
+    .checkout-btn {
 
         flex: 2;
 
-        height: 55px;
+        min-height: 60px;
 
-        border-radius: 50px;
+        padding: 16px 24px;
 
-        border: none;
+        border-radius: 18px;
 
-        background: linear-gradient(
-            135deg,
-            #ff6b00,
-            #ff8c42
-        );
+        text-decoration: none;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 10px;
+
+        background: linear-gradient(135deg,
+                #ff6b00,
+                #ff8c42);
 
         color: white;
 
+        font-size: 15px;
+
         font-weight: 700;
 
-        transition: 0.3s;
+        transition: all 0.3s ease;
 
-        box-shadow: 0 12px 25px rgba(255,107,0,0.25);
+        box-shadow: 0 12px 25px rgba(255, 107, 0, 0.25);
 
     }
 
-    .checkout-btn:hover{
+    .checkout-btn:hover {
+
+        color: white;
 
         transform: translateY(-3px);
 
+        box-shadow: 0 16px 30px rgba(255, 107, 0, 0.35);
+
     }
+
+    .checkout-btn i {
+
+        font-size: 18px;
+
+    }
+
 
     /* =========================
         GRAND TOTAL
     ========================== */
 
-    .grand-total{
+    .grand-total {
 
         background: white;
 
@@ -289,13 +309,13 @@ My Cart | TaRunTime
 
         text-align: center;
 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 
         margin-top: 30px;
 
     }
 
-    .grand-total h2{
+    .grand-total h2 {
 
         font-size: 2.5rem;
 
@@ -307,7 +327,7 @@ My Cart | TaRunTime
 
     }
 
-    .grand-total p{
+    .grand-total p {
 
         color: #64748b;
 
@@ -317,7 +337,7 @@ My Cart | TaRunTime
         EMPTY CART
     ========================== */
 
-    .empty-cart{
+    .empty-cart {
 
         background: white;
 
@@ -327,11 +347,11 @@ My Cart | TaRunTime
 
         text-align: center;
 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 
     }
 
-    .empty-cart i{
+    .empty-cart i {
 
         font-size: 5rem;
 
@@ -341,7 +361,7 @@ My Cart | TaRunTime
 
     }
 
-    .empty-cart h3{
+    .empty-cart h3 {
 
         font-size: 2rem;
 
@@ -353,7 +373,7 @@ My Cart | TaRunTime
 
     }
 
-    .empty-cart p{
+    .empty-cart p {
 
         color: #64748b;
 
@@ -361,7 +381,7 @@ My Cart | TaRunTime
 
     }
 
-    .browse-btn{
+    .browse-btn {
 
         padding: 16px 30px;
 
@@ -369,11 +389,9 @@ My Cart | TaRunTime
 
         text-decoration: none;
 
-        background: linear-gradient(
-            135deg,
-            #ff6b00,
-            #ff8c42
-        );
+        background: linear-gradient(135deg,
+                #ff6b00,
+                #ff8c42);
 
         color: white;
 
@@ -383,7 +401,7 @@ My Cart | TaRunTime
 
     }
 
-    .browse-btn:hover{
+    .browse-btn:hover {
 
         color: white;
 
@@ -393,32 +411,57 @@ My Cart | TaRunTime
         RESPONSIVE
     ========================== */
 
-    @media(max-width:768px){
+    @media(max-width:768px) {
 
-        .details-grid{
+        .details-grid {
 
             grid-template-columns: 1fr;
 
         }
 
+        checkout-btn {
+
+            min-height: 60px;
+
+            width: 100%;
+
+            flex: unset;
+
+        }
+
     }
 
-    @media(max-width:576px){
+    @media(max-width:576px) {
 
-        .cart-content{
+        .cart-content {
 
             padding: 20px;
 
         }
 
-        .cart-actions{
+        .cart-actions {
 
             flex-direction: column;
 
         }
 
-    }
+        checkout-btn {
 
+            min-height: 60px;
+
+            width: 100%;
+
+            flex: unset;
+
+        }
+
+        .remove-form {
+
+            width: 100%;
+
+        }
+
+    }
 </style>
 
 
@@ -450,10 +493,7 @@ My Cart | TaRunTime
 
                 <div class="col-lg-4">
 
-                    <img 
-                        src="{{ item.vehicle.image.url }}"
-                        class="cart-image"
-                    >
+                    <img src="{{ item.vehicle.image.url }}" class="cart-image">
 
                 </div>
 
@@ -549,18 +589,11 @@ My Cart | TaRunTime
 
                             <!-- Remove -->
 
-                            <form 
-                                action="{% url 'remove_cart_item' item.id %}"
-                                method="POST"
-                                style="flex:1;"
-                            >
+                            <form action="{% url 'remove_cart_item' item.id %}" method="POST" class="remove-form">
 
                                 {% csrf_token %}
 
-                                <button 
-                                    type="submit"
-                                    class="remove-btn w-100"
-                                >
+                                <button type="submit" class="remove-btn">
 
                                     <i class="bi bi-trash-fill me-2"></i>
 
@@ -571,15 +604,13 @@ My Cart | TaRunTime
                             </form>
 
                             <!-- Checkout -->
+                            <a href="{% url 'checkout' item.id %}" class="checkout-btn">
 
-                            <button class="checkout-btn">
-
-                                <i class="bi bi-credit-card-fill me-2"></i>
+                                <i class="bi bi-credit-card-fill"></i>
 
                                 Proceed To Checkout
 
-                            </button>
-
+                            </a>
                         </div>
 
                     </div>
@@ -606,10 +637,7 @@ My Cart | TaRunTime
                 Explore vehicles and add your favorite rentals.
             </p>
 
-            <a 
-                href="{% url 'all_vehicles' %}"
-                class="browse-btn"
-            >
+            <a href="{% url 'all_vehicles' %}" class="browse-btn">
 
                 Browse Vehicles
 

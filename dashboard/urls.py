@@ -22,4 +22,12 @@ urlpatterns = [
     path('wishlist/',views.wishlist_view,name='wishlist'),
     path('toggle_wishlist/<slug:slug>/',views.toggle_wishlist_view,name='toggle_wishlist'),
     path('remove_from_wishlist/<int:id>/',views.remove_from_wishlist_view,name='remove_from_wishlist'),
+
+
+    #booking requests
+    path('booking_vehicle/<int:id>/',views.checkout_view,name='checkout'),
+    path('my_bookings/',views.my_bookings_view,name='my_bookings'),
+    path('vendor_booking_requests/',views.vendor_booking_requests_view,name="vendor_booking_requests"),
+    path('approve_booking_request/<int:id>/',views.approve_booking_request_view,name="approve_booking_request"),
+    path('reject_booking_request/<int:id>/',views.reject_booking_request_view,name="reject_booking_request"),
 ]

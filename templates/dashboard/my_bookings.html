@@ -1,0 +1,395 @@
+{% extends 'dashboard/base_dashboard.html' %}
+
+{% block title %}
+My Bookings | TaRunTime
+{% endblock %}
+
+{% block dashboard_content %}
+
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+
+    {{ message }}
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<style>
+
+    .page-header{
+        margin-bottom: 35px;
+    }
+
+    .page-header h2{
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .page-header p{
+        color: #64748b;
+        margin-top: 10px;
+    }
+
+    /* ======================
+        BOOKING CARD
+    ====================== */
+
+    .booking-card{
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+        margin-bottom: 25px;
+        transition: 0.3s;
+    }
+
+    .booking-card:hover{
+        transform: translateY(-4px);
+    }
+
+    .vehicle-image{
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .booking-content{
+        padding: 25px;
+    }
+
+    .vehicle-name{
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 5px;
+    }
+
+    .vehicle-category{
+        color: #64748b;
+        margin-bottom: 20px;
+    }
+
+    /* ======================
+        DETAILS GRID
+    ====================== */
+
+    .details-grid{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .detail-box{
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .detail-label{
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 5px;
+    }
+
+    .detail-value{
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    /* ======================
+        PRICE
+    ====================== */
+
+    .price-box{
+        margin-top: 15px;
+    }
+
+    .price{
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #ff6b00;
+    }
+
+    /* ======================
+        STATUS BADGES
+    ====================== */
+
+    .status-badge{
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .status-pending{
+        background: rgba(245,158,11,0.12);
+        color: #d97706;
+    }
+
+    .status-approved{
+        background: rgba(34,197,94,0.12);
+        color: #16a34a;
+    }
+
+    .status-rejected{
+        background: rgba(239,68,68,0.12);
+        color: #dc2626;
+    }
+
+    .status-completed{
+        background: rgba(59,130,246,0.12);
+        color: #2563eb;
+    }
+
+    /* ======================
+        EMPTY STATE
+    ====================== */
+
+    .empty-box{
+        background: white;
+        border-radius: 24px;
+        padding: 70px 20px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+
+    .empty-box i{
+        font-size: 5rem;
+        color: #cbd5e1;
+    }
+
+    .empty-box h3{
+        margin-top: 20px;
+        font-weight: 700;
+        color: #334155;
+    }
+
+    .empty-box p{
+        color: #64748b;
+        margin-top: 10px;
+    }
+
+    /* ======================
+        RESPONSIVE
+    ====================== */
+
+    @media(max-width:768px){
+
+        .details-grid{
+            grid-template-columns: 1fr;
+        }
+
+        .booking-content{
+            padding: 18px;
+        }
+
+    }
+
+</style>
+
+
+<div class="page-header">
+
+    <h2>
+        My Bookings
+    </h2>
+
+    <p>
+        View all your vehicle booking requests and their status.
+    </p>
+
+</div>
+
+
+{% for booking in bookings %}
+
+<div class="booking-card">
+
+    <div class="row g-0">
+
+        <!-- Image -->
+
+        <div class="col-lg-4">
+
+            <img
+                src="{{ booking.vehicle.image.url }}"
+                class="vehicle-image"
+                alt="{{ booking.vehicle.name }}"
+            >
+
+        </div>
+
+        <!-- Content -->
+
+        <div class="col-lg-8">
+
+            <div class="booking-content">
+
+                <div class="d-flex justify-content-between align-items-start mb-3">
+
+                    <div>
+
+                        <h3 class="vehicle-name">
+
+                            {{ booking.vehicle.name }}
+
+                        </h3>
+
+                        <p class="vehicle-category">
+
+                            {{ booking.vehicle.category }}
+
+                        </p>
+
+                    </div>
+
+                    <!-- Status -->
+
+                    {% if booking.status == 'pending' %}
+
+                    <span class="status-badge status-pending">
+                        Pending
+                    </span>
+
+                    {% elif booking.status == 'approved' %}
+
+                    <span class="status-badge status-approved">
+                        Approved
+                    </span>
+
+                    {% elif booking.status == 'rejected' %}
+
+                    <span class="status-badge status-rejected">
+                        Rejected
+                    </span>
+
+                    {% elif booking.status == 'completed' %}
+
+                    <span class="status-badge status-completed">
+                        Completed
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- Details -->
+
+                <div class="details-grid">
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+
+                            Pickup Date
+
+                        </div>
+
+                        <div class="detail-value">
+
+                            {{ booking.start_date }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+
+                            Return Date
+
+                        </div>
+
+                        <div class="detail-value">
+
+                            {{ booking.end_date }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+
+                            Total Days
+
+                        </div>
+
+                        <div class="detail-value">
+
+                            {{ booking.total_days }} Days
+
+                        </div>
+
+                    </div>
+
+                    <div class="detail-box">
+
+                        <div class="detail-label">
+
+                            Vendor
+
+                        </div>
+
+                        <div class="detail-value">
+
+                            {{ booking.vendor.username }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Price -->
+
+                <div class="price-box">
+
+                    <div class="price">
+
+                        ₹{{ booking.total }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="empty-box">
+
+    <i class="bi bi-calendar-x"></i>
+
+    <h3>
+        No Bookings Found
+    </h3>
+
+    <p>
+        You haven't booked any vehicles yet.
+    </p>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

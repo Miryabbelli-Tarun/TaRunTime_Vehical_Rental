@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
-from dashboard.models import Cart, VendorRequest, Wishlist
+from dashboard.models import Bookings, Cart, VendorRequest, Wishlist
 from home.models import Category, Vehicle
 from datetime import datetime
 
@@ -339,4 +339,55 @@ def remove_from_wishlist_view(request,id):
     item.delete()
     messages.success(request,"vehicle removed from wishlist")
     return redirect('wishlist')
-    
+
+
+
+def checkout_view(request,id):
+    item=get_object_or_404(Cart,id=id,user=request.user)
+    if Bookings.objects.filter(user=request.user,
+                               vehicle=item.vehicle,
+                               start_date=item.start_date,
+                               end_date=item.end_date,
+                               status="pending").exists():
+        messages.warning(request,"booking request already send")
+        return redirect('cart')
+    Bookings.objects.create(
+        user=request.user,
+        vehicle=item.vehicle,
+        vendor=item.vehicle.vendor,
+        start_date=item.start_date,
+        end_date=item.end_date,
+        total_days=item.total_days,
+        total=item.amount
+    )
+    item.delete()
+    messages.success(request,"booking request send succesfully")
+    return redirect('my_bookings')
+
+def my_bookings_view(request):
+    bookings=Bookings.objects.filter(user=request.user).order_by('-created_at')
+    context={
+        'bookings':bookings
+    }
+    return render(request,'dashboard/my_bookings.html',context)
+
+def vendor_booking_requests_view(request):
+    bookings=Bookings.objects.filter(vendor=request.user).order_by('-created_at')
+    context={
+        'bookings':bookings,
+    }
+    return render(request,"dashboard/vendor/booking_requests.html",context)
+
+def approve_booking_request_view(request,id):
+    item=get_object_or_404(Bookings,vendor=request.user,id=id)
+    item.status='approved'
+    item.save()
+    messages.success(request,"booking request accepted")
+    return redirect('vendor_booking_requests')
+
+def reject_booking_request_view(request,id):
+    item=get_object_or_404(Bookings,id=id,vendor=request.user)
+    item.status='rejected'
+    item.save()
+    messages.success(request,"booking request rejected")
+    return redirect('vendor_booking_requests')

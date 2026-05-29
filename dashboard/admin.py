@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from dashboard.models import Cart, VendorRequest, Wishlist
+from dashboard.models import Bookings, Cart, VendorRequest, Wishlist
 
 # Register your models here.
 class VendorRequestAdmin(admin.ModelAdmin):
@@ -10,3 +10,4 @@ class VendorRequestAdmin(admin.ModelAdmin):
 admin.site.register(VendorRequest,VendorRequestAdmin)
 admin.site.register(Cart)
 admin.site.register(Wishlist)
+admin.site.register(Bookings)
